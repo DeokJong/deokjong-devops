@@ -1,0 +1,12 @@
+appName: sandbox-cluster-issuer
+chartPath: charts/foundation/cluster-issuer
+releaseName: cluster-issuer
+namespace: cert-manager
+syncWave: "0"
+
+email: "novelss5573"
+solvers:
+  - dns01:
+      route53:
+        hostedZoneID: Z05211163C63AOHWJ4F1W
+        region: ap-northeast-2
