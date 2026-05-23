@@ -19,6 +19,7 @@ external-dns-private:
   txtOwnerId: sandbox-private
   extraArgs:
     - --aws-zone-type=private
+    - --gateway-name=private-gateway
   env:
     - name: AWS_DEFAULT_REGION
       value: ap-northeast-2
@@ -42,6 +43,7 @@ external-dns-public:
   txtOwnerId: sandbox-public
   extraArgs:
     - --aws-zone-type=public
+    - --gateway-name=public-gateway
   env:
     - name: AWS_DEFAULT_REGION
       value: ap-northeast-2
