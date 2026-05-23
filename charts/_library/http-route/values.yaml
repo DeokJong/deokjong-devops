@@ -1,0 +1,19 @@
+route:
+  enabled: true
+  name: ""
+  namespace: ""
+  hostnames: []
+  gatewayType: public
+  gatewayOverride: []
+  backendRefs:
+    - name: ""
+      port: 80
+      weight: 1
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+  filters: []
+  redirect:
+    enabled: true
+    statusCode: 301
