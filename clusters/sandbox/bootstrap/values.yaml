@@ -65,7 +65,7 @@ nodeClasses:
       - id: sg-0e7c061de96f5421c
     subnetSelectorTerms:
       - tags:
-          karpenter.sh/discovery/private = "-"
+          karpenter.sh/discovery/private: "-"
 
 nodePools:
   - name: general-purpose
