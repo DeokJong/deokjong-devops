@@ -1,0 +1,5 @@
+apiVersion: v2
+name: wildcard-tls
+description: Wildcard TLS certificates and public/private Istio Gateway API entrypoints
+type: application
+version: 0.1.0

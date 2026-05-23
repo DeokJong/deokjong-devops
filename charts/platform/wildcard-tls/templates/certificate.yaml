@@ -1,0 +1,17 @@
+{{- $root := . -}}
+{{- range $idx, $domain := required "dnsNames is required" .Values.dnsNames }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "wildcard-tls.certificateName" (dict "root" $root "domain" $domain) | quote }}
+  namespace: {{ $root.Values.namespace | quote }}
+spec:
+  secretName: {{ include "wildcard-tls.secretName" (dict "root" $root "domain" $domain) | quote }}
+  issuerRef:
+    name: {{ required "clusterIssuerName is required" $root.Values.clusterIssuerName | quote }}
+    kind: ClusterIssuer
+  dnsNames:
+    - {{ $domain | quote }}
+    - {{ printf "*.%s" $domain | quote }}
+{{- end }}

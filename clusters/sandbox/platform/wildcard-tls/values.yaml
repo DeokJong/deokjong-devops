@@ -1,0 +1,26 @@
+appName: platform-wildcard-cert
+chartPath: charts/platform/wildcard-tls
+releaseName: wildcard-tls
+namespace: gateway-system
+syncWave: "0"
+
+name: wildcard
+clusterIssuerName: cluster-issuer
+dnsNames:
+  - sandbox.jinjin99.xyz
+
+gateways:
+  - name: public-gateway
+    enabled: true
+    exposure: public
+    listenerName: https
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: private-gateway
+    enabled: true
+    exposure: private
+    listenerName: https
+    allowedRoutes:
+      namespaces:
+        from: All
