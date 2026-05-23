@@ -28,7 +28,7 @@ spec:
             releaseName: '{{`{{ .releaseName }}`}}'
             valueFiles:
               - $values/{{ .Values.global.basePath }}/config.yaml
-              - $values/{{`{{ .path.path }}`}}
+              - $values/{{`{{ index .path "path" }}`}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: {{ .Values.global.repoURL }}
           targetRevision: {{ .Values.global.targetRevision }}
