@@ -1,4 +1,4 @@
-appName: sandbox-external-dns
+appName: foundation-external-dns
 chartPath: charts/foundation/external-dns
 releaseName: external-dns
 namespace: external-dns
