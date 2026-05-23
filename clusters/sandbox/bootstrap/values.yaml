@@ -68,8 +68,13 @@ nodeClasses:
           karpenter.sh/discovery/private: "-"
 
 nodePools:
-  - name: general-purpose
-    nodeClassName: default
+  - name: general-purpose-deokjong
+    nodeClassName: default-deokjong
+  - name: system-deokjong
+    nodeClassName: default-deokjong
+    taints:
+     - key: CriticalAddonsOnly
+       effect: NoSchedule
 
 storageClasses:
   - name: gp3
