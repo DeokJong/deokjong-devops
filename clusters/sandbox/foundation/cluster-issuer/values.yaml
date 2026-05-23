@@ -4,7 +4,7 @@ releaseName: cluster-issuer
 namespace: cert-manager
 syncWave: "0"
 
-email: "novelss5573"
+email: "novelss5573@gmail.com"
 solvers:
   - dns01:
       route53:
