@@ -24,5 +24,4 @@ locals {
   gateway_sg         = data.terraform_remote_state.foundation_fck_gateway.outputs.gateway_security_groups_ids[0]
   vpc_id             = data.terraform_remote_state.foundation_vpc.outputs.vpc.id
   private_subnet_ids = data.terraform_remote_state.foundation_vpc.outputs.vpc.private_subnet_ids
-  public_subnet_ids  = data.terraform_remote_state.foundation_vpc.outputs.vpc.public_subnet_ids
 }
