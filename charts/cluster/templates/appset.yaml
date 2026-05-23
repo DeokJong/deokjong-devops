@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.global.clusterName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: {{ .Values.global.repoURL }}
+        revision: {{ .Values.global.targetRevision }}
+        files:
+          - path: "clusters/{{ .Values.global.clusterName }}/**/*/values.yaml"
+  template:
+    metadata:
+      name: '{{`{{ .appName }}`}}'
+      namespace: {{ .Release.Namespace }}
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{`{{ .syncWave }}`}}'
+    spec:
+      project: {{ .Values.global.project }}
+      sources:
+        - repoURL: {{ .Values.global.repoURL }}
+          targetRevision: {{ .Values.global.targetRevision }}
+          path: '{{`{{ .chartPath }}`}}'
+          helm:
+            releaseName: '{{`{{ .releaseName }}`}}'
+            valueFiles:
+              - $values/clusters/{{ .Values.global.clusterName }}/values.yaml
+              - $values/{{`{{ .path.path }}`}}
+            ignoreMissingValueFiles: true
+        - repoURL: {{ .Values.global.repoURL }}
+          targetRevision: {{ .Values.global.targetRevision }}
+          ref: values
+      destination:
+        server: {{ .Values.global.destination.server }}
+        namespace: '{{`{{ .namespace }}`}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
