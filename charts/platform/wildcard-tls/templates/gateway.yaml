@@ -21,7 +21,14 @@ metadata:
 spec:
   gatewayClassName: {{ default $root.Values.gatewayClassName $gateway.gatewayClassName | quote }}
   listeners:
-    - name: {{ default "https" $gateway.listenerName | quote }}
+    - name: {{ default "http" $gateway.httpListenerName | quote }}
+      hostname: {{ $domain | quote }}
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
+    - name: {{ default "https" $gateway.httpsListenerName | quote }}
       hostname: {{ $domain | quote }}
       port: 443
       protocol: HTTPS

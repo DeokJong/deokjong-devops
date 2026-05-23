@@ -13,14 +13,12 @@ gateways:
   - name: public-gateway
     enabled: true
     exposure: public
-    listenerName: https
     allowedRoutes:
       namespaces:
         from: All
   - name: private-gateway
     enabled: true
     exposure: private
-    listenerName: https
     allowedRoutes:
       namespaces:
         from: All
