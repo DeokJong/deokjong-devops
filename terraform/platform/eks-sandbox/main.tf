@@ -11,7 +11,6 @@ module "sandbox" {
 
   compute_config = {
     enabled    = true
-    node_pools = ["system"]
   }
 
   subnet_ids = local.private_subnet_ids
