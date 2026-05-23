@@ -1,0 +1,5 @@
+apiVersion: v2
+name: bootstrap-resources
+description: Cluster bootstrap resources — NodePool, NodeClass, StorageClass
+type: application
+version: 0.1.0

@@ -1,0 +1,20 @@
+{{- range .Values.nodeClasses }}
+---
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: {{ .name }}
+spec:
+  role: {{ .role }}
+  ephemeralStorage:
+    size: {{ .ephemeralStorage.size }}
+    iops: {{ .ephemeralStorage.iops }}
+    throughput: {{ .ephemeralStorage.throughput }}
+  networkPolicy: {{ .networkPolicy }}
+  networkPolicyEventLogs: {{ .networkPolicyEventLogs }}
+  snatPolicy: {{ .snatPolicy }}
+  securityGroupSelectorTerms:
+    {{- toYaml .securityGroupSelectorTerms | nindent 4 }}
+  subnetSelectorTerms:
+    {{- toYaml .subnetSelectorTerms | nindent 4 }}
+{{- end }}
