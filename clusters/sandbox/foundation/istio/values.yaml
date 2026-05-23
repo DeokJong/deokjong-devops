@@ -1,5 +1,5 @@
 appName: foundation-istio
 chartPath: charts/foundation/istio
 releaseName: istio
-namespace: istio
+namespace: istio-system
 syncWave: "0"
