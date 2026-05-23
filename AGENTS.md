@@ -34,5 +34,6 @@
 - Keep chart defaults generic, empty, or safe placeholders.
 - Prefer required checks in templates for values that must be supplied by cluster values.
 - Do not hardcode real domains, hosted zone IDs, AWS regions, cluster names, repo URLs, app names, or namespaces in `charts/**/values.yaml`.
+- When changing a chart interface, also update the deployment values that render that chart under `clusters/{clusterName}/{path-to-app}/values.yaml`.
 - If a chart needs reusable template logic only, place it under `charts/_library`.
 - Library charts should not be registered as standalone Applications.
