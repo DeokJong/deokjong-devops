@@ -1,0 +1,8 @@
+global:
+  clusterName: sandbox
+  basePath: clusters/sandbox
+  repoURL: https://github.com/deokjong/deokjong-devops.git
+  targetRevision: main
+  destination:
+    server: in-cluster
+  project: default
