@@ -62,9 +62,10 @@ nodeClasses:
   - name: default-deokjong
     role: deokjong-sandbox-eks-auto-20260515143157360300000001
     securityGroupSelectorTerms:
-      - sg-0e7c061de96f5421c
+      - id: sg-0e7c061de96f5421c
     subnetSelectorTerms:
-      - karpenter.sh/discovery/private = "-"
+      - tags:
+          karpenter.sh/discovery/private = "-"
 
 nodePools:
   - name: general-purpose
