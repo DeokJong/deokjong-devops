@@ -5,6 +5,11 @@ namespace: argocd
 syncWave: "0"
 
 argo-cd:
+  global:
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+        effect: NoSchedule
   server:
     service:
       type: ClusterIP
