@@ -7,12 +7,12 @@ metadata:
 spec:
   role: {{ .role }}
   ephemeralStorage:
-    size: {{ .ephemeralStorage.size }}
-    iops: {{ .ephemeralStorage.iops }}
-    throughput: {{ .ephemeralStorage.throughput }}
-  networkPolicy: {{ .networkPolicy }}
-  networkPolicyEventLogs: {{ .networkPolicyEventLogs }}
-  snatPolicy: {{ .snatPolicy }}
+    size: {{ default "80Gi" .ephemeralStorage.size }}
+    iops: {{ default "3000" .ephemeralStorage.iops }}
+    throughput: {{ default 125 .ephemeralStorage.throughput }}
+  networkPolicy: {{ default "DefaultAllow" .networkPolicy }}
+  networkPolicyEventLogs: {{ default "Disabled" .networkPolicyEventLogs }}
+  snatPolicy: {{ default "Random" .snatPolicy }}
   securityGroupSelectorTerms:
     {{- toYaml .securityGroupSelectorTerms | nindent 4 }}
   subnetSelectorTerms:
