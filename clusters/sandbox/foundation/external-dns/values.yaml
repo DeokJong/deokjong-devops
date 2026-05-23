@@ -2,34 +2,26 @@ appName: sandbox-external-dns
 chartPath: charts/foundation/external-dns
 releaseName: external-dns
 namespace: external-dns
-syncWave: "2"
+syncWave: "0"
 
 external-dns-private:
   fullnameOverride: external-dns-private
-
   serviceAccount:
     name: external-dns-private
-
   domainFilters:
     - jinjin99.xyz
-
   sources:
     - gateway-httproute
-
   provider:
     name: aws
-
   policy: sync
   interval: 1m
   txtOwnerId: sandbox-private
-
   extraArgs:
     - --aws-zone-type=private
-
   env:
     - name: AWS_DEFAULT_REGION
       value: ap-northeast-2
-
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
@@ -37,30 +29,22 @@ external-dns-private:
 
 external-dns-public:
   fullnameOverride: external-dns-public
-
   serviceAccount:
     name: external-dns-public
-
   domainFilters:
     - jinjin99.xyz
-
   sources:
     - gateway-httproute
-
   provider:
     name: aws
-
   policy: sync
   interval: 1m
   txtOwnerId: sandbox-public
-
   extraArgs:
     - --aws-zone-type=public
-
   env:
     - name: AWS_DEFAULT_REGION
       value: ap-northeast-2
-
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists

@@ -2,7 +2,7 @@ appName: sandbox-bootstrap
 chartPath: charts/bootstrap
 releaseName: bootstrap
 namespace: argocd
-syncWave: "0"
+syncWave: "-1"
 
 argo-cd:
   global:
