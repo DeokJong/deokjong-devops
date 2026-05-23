@@ -1,0 +1,29 @@
+{{- $root := . -}}
+{{- range $component := .Values.components }}
+{{- if $component.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: {{ $root.Values.argocdNamespace | quote }}
+  name: {{ default (printf "%s-%s" $root.Values.appNamePrefix $component.chart) $component.name | quote }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $component.syncWave | quote }}
+spec:
+  destination:
+    server: {{ $root.Values.global.destination.server | quote }}
+    namespace: {{ $root.Values.namespace | quote }}
+  project: {{ $root.Values.global.project | quote }}
+  source:
+    repoURL: {{ default $root.Values.istio.repoURL $component.repoURL | quote }}
+    chart: {{ $component.chart | quote }}
+    targetRevision: {{ default $root.Values.istio.version $component.targetRevision | quote }}
+    {{- with $component.helmValues }}
+    helm:
+      values: |
+{{ toYaml . | indent 8 }}
+    {{- end }}
+  syncPolicy:
+{{ toYaml $root.Values.syncPolicy | indent 4 }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,35 @@
+argocdNamespace: argocd
+namespace: istio-system
+appNamePrefix: foundation-istio
+
+istio:
+  repoURL: https://istio-release.storage.googleapis.com/charts
+  version: 1.30.0
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
+
+components:
+  - chart: base
+    enabled: true
+    syncWave: "0"
+
+  - chart: istiod
+    enabled: true
+    syncWave: "1"
+    helmValues:
+      profile: ambient
+
+  - chart: cni
+    enabled: true
+    syncWave: "2"
+    helmValues:
+      profile: ambient
+
+  - chart: ztunnel
+    enabled: true
+    syncWave: "3"
