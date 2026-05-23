@@ -19,11 +19,12 @@ external-dns-private:
   provider:
     name: aws
 
+  policy: sync
+  interval: 1m
+  txtOwnerId: sandbox-private
+
   extraArgs:
     - --aws-zone-type=private
-    - --txt-owner-id=sandbox-private
-    - --policy=sync
-    - --interval=1m
 
   env:
     - name: AWS_DEFAULT_REGION
@@ -49,11 +50,12 @@ external-dns-public:
   provider:
     name: aws
 
+  policy: sync
+  interval: 1m
+  txtOwnerId: sandbox-public
+
   extraArgs:
     - --aws-zone-type=public
-    - --txt-owner-id=sandbox-public
-    - --policy=sync
-    - --interval=1m
 
   env:
     - name: AWS_DEFAULT_REGION
