@@ -11,7 +11,7 @@ spec:
         repoURL: {{ .Values.global.repoURL }}
         revision: {{ .Values.global.targetRevision }}
         files:
-          - path: "clusters/{{ .Values.global.clusterName }}/**/*/values.yaml"
+          - path: "{{ .Values.global.basePath }}/**/*/values.yaml"
   template:
     metadata:
       name: '{{`{{ .appName }}`}}'
@@ -27,7 +27,7 @@ spec:
           helm:
             releaseName: '{{`{{ .releaseName }}`}}'
             valueFiles:
-              - $values/clusters/{{ .Values.global.clusterName }}/values.yaml
+              - $values/{{ .Values.global.basePath }}/values.yaml
               - $values/{{`{{ .path.path }}`}}
             ignoreMissingValueFiles: true
         - repoURL: {{ .Values.global.repoURL }}
