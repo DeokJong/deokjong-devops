@@ -13,8 +13,41 @@ argo-cd:
   server:
     extraArgs:
       - --insecure
+    replicas: 2
+    pdb:
+      enabled: true
+      minAvailable: 1
     service:
       type: ClusterIP
+  repoServer:
+    replicas: 2
+    pdb:
+      enabled: true
+      minAvailable: 1
+  applicationSet:
+    replicas: 2
+    pdb:
+      enabled: true
+      minAvailable: 1
+  controller:
+    replicas: 2
+    dynamicClusterDistribution: true
+    pdb:
+      enabled: true
+      minAvailable: 1
+  redis-ha:
+    enabled: true
+    hardAntiAffinity: false
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+        effect: NoSchedule
+    haproxy:
+      hardAntiAffinity: false
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+          effect: NoSchedule
 
 argocdRoute:
   enabled: true
