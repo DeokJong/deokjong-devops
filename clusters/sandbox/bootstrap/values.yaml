@@ -58,6 +58,14 @@ argocdRoute:
     - name: bootstrap-argocd-server
       port: 80
 
+nodeClasses:
+  - name: default-deokjong
+    role: deokjong-sandbox-eks-auto-20260515143157360300000001
+    securityGroupSelectorTerms:
+      - sg-0e7c061de96f5421c
+    subnetSelectorTerms:
+      - karpenter.sh/discovery/private = "-"
+
 nodePools:
   - name: general-purpose
     nodeClassName: default
