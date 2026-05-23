@@ -24,7 +24,6 @@ external-dns-private:
     - --txt-owner-id=sandbox-private
     - --policy=sync
     - --interval=1m
-    - --gateway-name=internal-gateway
 
   env:
     - name: AWS_DEFAULT_REGION
@@ -55,7 +54,6 @@ external-dns-public:
     - --txt-owner-id=sandbox-public
     - --policy=sync
     - --interval=1m
-    - --gateway-name=public-gateway
 
   env:
     - name: AWS_DEFAULT_REGION
