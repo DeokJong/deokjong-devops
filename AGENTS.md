@@ -37,3 +37,20 @@
 - When changing a chart interface, also update the deployment values that render that chart under `clusters/{clusterName}/{path-to-app}/values.yaml`.
 - If a chart needs reusable template logic only, place it under `charts/_library`.
 - Library charts should not be registered as standalone Applications.
+
+## Gateway And HTTPRoute Convention
+
+- Platform Gateway resources are created by `charts/platform/wildcard-tls`.
+- Gateways are expected to live in the `gateway-system` namespace.
+- Standard Gateway names are `public-gateway` and `private-gateway`.
+- Each Gateway exposes `http` on port 80 and `https` on port 443.
+- Service charts should use the `charts/_library/http-route` library chart instead of hand-writing raw HTTPRoute templates.
+- Route values should use `gatewayType`: `public`, `private`, or `all`.
+- HTTPRoute backend targets should be expressed as `backendRefs`.
+- HTTP to HTTPS redirect is implemented as a separate HTTPRoute attached to the `http` listener.
+- TLS termination happens at the Gateway. Backends should normally use HTTP service ports, for example Argo CD server port `80`.
+
+## Bootstrap Caution
+
+- `bootstrap` installs Argo CD itself.
+- Be careful when changing bootstrap `appName`; ApplicationSet may prune the old Application and delete Argo CD resources through finalizers.
