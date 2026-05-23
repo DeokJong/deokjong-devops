@@ -23,6 +23,10 @@ spec:
       values: |
 {{ toYaml . | indent 8 }}
     {{- end }}
+  {{- with $component.ignoreDifferences }}
+  ignoreDifferences:
+{{ toYaml . | indent 4 }}
+  {{- end }}
   syncPolicy:
 {{ toYaml $root.Values.syncPolicy | indent 4 }}
 {{- end }}
