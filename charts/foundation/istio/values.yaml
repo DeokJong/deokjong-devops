@@ -1,3 +1,8 @@
+global:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+
 argocdNamespace: argocd
 namespace: istio-system
 appNamePrefix: foundation-istio
@@ -17,12 +22,22 @@ components:
   - chart: base
     enabled: true
     syncWave: "0"
+    ignoreDifferences:
+      - group: admissionregistration.k8s.io
+        kind: ValidatingWebhookConfiguration
+        jqPathExpressions:
+          - .webhooks[]?.failurePolicy
 
   - chart: istiod
     enabled: true
     syncWave: "1"
     helmValues:
       profile: ambient
+    ignoreDifferences:
+      - group: admissionregistration.k8s.io
+        kind: ValidatingWebhookConfiguration
+        jqPathExpressions:
+          - .webhooks[]?.failurePolicy
 
   - chart: cni
     enabled: true
