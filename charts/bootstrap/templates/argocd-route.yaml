@@ -1,0 +1,5 @@
+{{- with .Values.argocdRoute }}
+{{- if .enabled }}
+{{ include "http-route.httproute" (dict "root" $ "route" .) }}
+{{- end }}
+{{- end }}
