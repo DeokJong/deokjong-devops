@@ -7,9 +7,9 @@ metadata:
 spec:
   role: {{ .role }}
   ephemeralStorage:
-    size: {{ default "80Gi" .ephemeralStorage.size }}
-    iops: {{ default "3000" .ephemeralStorage.iops }}
-    throughput: {{ default 125 .ephemeralStorage.throughput }}
+    size: {{ dig "ephemeralStorage" "size" "80Gi" . }}
+    iops: {{ dig "ephemeralStorage" "iops" "3000" . }}
+    throughput: {{ dig "ephemeralStorage" "throughput" "125" . }}
   networkPolicy: {{ default "DefaultAllow" .networkPolicy }}
   networkPolicyEventLogs: {{ default "Disabled" .networkPolicyEventLogs }}
   snatPolicy: {{ default "Random" .snatPolicy }}
