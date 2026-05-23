@@ -1,0 +1,23 @@
+appName: sandbox-bootstrap
+chartPath: charts/bootstrap
+releaseName: bootstrap
+namespace: argocd
+syncWave: "0"
+
+argo-cd:
+  server:
+    service:
+      type: ClusterIP
+
+nodePools:
+  - name: general-purpose
+    nodeClassName: default
+
+storageClasses:
+  - name: gp3
+    provisioner: ebs.csi.eks.amazonaws.com
+    parameters:
+      type: gp3
+      fsType: ext4
+    reclaimPolicy: Delete
+    volumeBindingMode: WaitForFirstConsumer

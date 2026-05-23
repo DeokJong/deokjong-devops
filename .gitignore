@@ -11,3 +11,7 @@ override.tf.json
 *_override.tf.json
 **/*.tfvars
 **/backend.hcl
+
+# Helm
+charts/**/charts/*.tgz
+**/Chart.lock

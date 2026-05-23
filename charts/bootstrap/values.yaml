@@ -1,0 +1,14 @@
+argo-cd:
+  global:
+    domain: ""
+  server:
+    service:
+      type: ClusterIP
+  dex:
+    enabled: false
+  notifications:
+    enabled: false
+
+nodeClasses: []
+nodePools: []
+storageClasses: []
