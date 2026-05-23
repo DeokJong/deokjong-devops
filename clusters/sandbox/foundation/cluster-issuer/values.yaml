@@ -1,4 +1,4 @@
-appName: sandbox-cluster-issuer
+appName: foundation-cluster-issuer
 chartPath: charts/foundation/cluster-issuer
 releaseName: cluster-issuer
 namespace: cert-manager
