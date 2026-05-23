@@ -1,0 +1,15 @@
+apiVersion: v2
+name: external-dns
+description: ExternalDNS synchronizes exposed Kubernetes Gateway HTTPRoutes with Route53 (private + public)
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: external-dns
+    version: 1.15.2
+    repository: https://kubernetes-sigs.github.io/external-dns/
+    alias: external-dns-private
+  - name: external-dns
+    version: 1.15.2
+    repository: https://kubernetes-sigs.github.io/external-dns/
+    alias: external-dns-public
