@@ -12,7 +12,7 @@ spec:
       helm:
         releaseName: sandbox
         valueFiles:
-          - $values/clusters/sandbox/values.yaml
+          - $values/clusters/sandbox/config.yaml
     - repoURL: https://github.com/deokjong/deokjong-devops.git
       targetRevision: main
       ref: values
