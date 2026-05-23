@@ -1,4 +1,4 @@
-appName: sandbox-bootstrap
+appName: bootstrap
 chartPath: charts/bootstrap
 releaseName: bootstrap
 namespace: argocd
