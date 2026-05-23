@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+dnf update -y
+dnf install -y awscli
+
+curl -fsSL https://tailscale.com/install.sh | sh
+
+printf '%s\n' \
+    'net.ipv4.ip_forward = 1' \
+    'net.ipv6.conf.all.forwarding = 1' \
+    >/etc/sysctl.d/99-tailscale-subnet-router.conf
+
+sysctl --system
+
+systemctl enable --now tailscaled
+
+tailscale up \
+    --authkey "${ts_auth_key}" \
+    --advertise-routes="${join(",", advertise_routes)}" \
+    --hostname="${name}" \
+    --accept-dns=false${length(tailscale_extra_args) > 0 ? " \\\n    ${join(" \\\n    ", tailscale_extra_args)}" : ""}
