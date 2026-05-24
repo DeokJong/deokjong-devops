@@ -3,16 +3,7 @@
 {{- end -}}
 
 {{- define "http-route.namespace" -}}
-{{- default (default .root.Release.Namespace .root.Values.namespace) .route.namespace -}}
-{{- end -}}
-
-{{- define "http-route.labels" -}}
-{{- $commonLabels := default dict .root.Values.commonLabels -}}
-{{- $routeLabels := default dict .route.labels -}}
-{{- $labels := mergeOverwrite (deepCopy $commonLabels) $routeLabels -}}
-{{- if $labels -}}
-{{- toYaml $labels -}}
-{{- end -}}
+{{- default .root.Release.Namespace .route.namespace -}}
 {{- end -}}
 
 {{- define "http-route.matches" -}}
