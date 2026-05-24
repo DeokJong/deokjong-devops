@@ -5,6 +5,7 @@ route:
   name: whoami
   hostnames: []
   gatewayType: private
+  hostnameType: apex
   backendRefs:
     - name: whoami
       port: 80
