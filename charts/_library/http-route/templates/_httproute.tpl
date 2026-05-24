@@ -18,6 +18,10 @@ kind: HTTPRoute
 metadata:
   name: {{ include "http-route.name" (dict "root" $root "route" $route) | quote }}
   namespace: {{ include "http-route.namespace" (dict "root" $root "route" $route) | quote }}
+  {{- with include "http-route.labels" (dict "root" $root "route" $route) }}
+  labels:
+{{ . | indent 4 }}
+  {{- end }}
 spec:
   hostnames:
 {{- range required "route.hostnames is required" $route.hostnames }}
@@ -65,6 +69,10 @@ kind: HTTPRoute
 metadata:
   name: {{ printf "%s-redirect" (include "http-route.name" (dict "root" $root "route" $route)) | trunc 63 | trimSuffix "-" | quote }}
   namespace: {{ include "http-route.namespace" (dict "root" $root "route" $route) | quote }}
+  {{- with include "http-route.labels" (dict "root" $root "route" $route) }}
+  labels:
+{{ . | indent 4 }}
+  {{- end }}
 spec:
   hostnames:
 {{- range required "route.hostnames is required" $route.hostnames }}
