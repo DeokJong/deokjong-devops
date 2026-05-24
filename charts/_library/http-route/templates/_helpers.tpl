@@ -3,7 +3,7 @@
 {{- end -}}
 
 {{- define "http-route.namespace" -}}
-{{- default .root.Release.Namespace .route.namespace -}}
+{{- default (default .root.Release.Namespace .root.Values.namespace) .route.namespace -}}
 {{- end -}}
 
 {{- define "http-route.matches" -}}
