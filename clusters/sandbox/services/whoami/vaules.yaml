@@ -1,4 +1,4 @@
-appName: whoami
+appName: service-whoami
 chartPath: charts/services/whoami
 releaseName: whoami
 namespace: whoami
