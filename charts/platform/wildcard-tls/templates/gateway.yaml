@@ -3,8 +3,8 @@
 {{- range $gateway := .Values.gateways }}
 {{- if $gateway.enabled }}
 {{- $certificateDomain := first $domains }}
-{{- $defaultHostname := default (printf "*.%s" $certificateDomain) $gateway.hostname }}
-{{- $hostnames := default (list $defaultHostname) $gateway.hostnames }}
+{{- $hostname := default $certificateDomain $gateway.hostname }}
+{{- $wildcardHostname := printf "*.%s" $hostname }}
 {{- $secretName := default (include "wildcard-tls.secretName" (dict "root" $root "domain" $certificateDomain)) $gateway.certificateRefName }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -23,15 +23,14 @@ metadata:
 spec:
   gatewayClassName: {{ default $root.Values.gatewayClassName $gateway.gatewayClassName | quote }}
   listeners:
-{{- range $idx, $hostname := $hostnames }}
-    - name: {{ default (ternary "http" (printf "http-%d" $idx) (eq $idx 0)) $gateway.httpListenerName | quote }}
+    - name: "http-apex"
       hostname: {{ $hostname | quote }}
       port: 80
       protocol: HTTP
       allowedRoutes:
         namespaces:
           from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
-    - name: {{ default (ternary "https" (printf "https-%d" $idx) (eq $idx 0)) $gateway.httpsListenerName | quote }}
+    - name: "https-apex"
       hostname: {{ $hostname | quote }}
       port: 443
       protocol: HTTPS
@@ -43,6 +42,24 @@ spec:
       allowedRoutes:
         namespaces:
           from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
-{{- end }}
+    - name: "http-wildcard"
+      hostname: {{ $wildcardHostname | quote }}
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
+    - name: "https-wildcard"
+      hostname: {{ $wildcardHostname | quote }}
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: {{ $secretName | quote }}
+      allowedRoutes:
+        namespaces:
+          from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
 {{- end }}
 {{- end }}
