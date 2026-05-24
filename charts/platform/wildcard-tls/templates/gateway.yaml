@@ -3,7 +3,8 @@
 {{- range $gateway := .Values.gateways }}
 {{- if $gateway.enabled }}
 {{- $certificateDomain := first $domains }}
-{{- $hostname := default (printf "*.%s" $certificateDomain) $gateway.hostname }}
+{{- $defaultHostname := default (printf "*.%s" $certificateDomain) $gateway.hostname }}
+{{- $hostnames := default (list $defaultHostname) $gateway.hostnames }}
 {{- $secretName := default (include "wildcard-tls.secretName" (dict "root" $root "domain" $certificateDomain)) $gateway.certificateRefName }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -22,14 +23,15 @@ metadata:
 spec:
   gatewayClassName: {{ default $root.Values.gatewayClassName $gateway.gatewayClassName | quote }}
   listeners:
-    - name: {{ default "http" $gateway.httpListenerName | quote }}
+{{- range $idx, $hostname := $hostnames }}
+    - name: {{ default (ternary "http" (printf "http-%d" $idx) (eq $idx 0)) $gateway.httpListenerName | quote }}
       hostname: {{ $hostname | quote }}
       port: 80
       protocol: HTTP
       allowedRoutes:
         namespaces:
           from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
-    - name: {{ default "https" $gateway.httpsListenerName | quote }}
+    - name: {{ default (ternary "https" (printf "https-%d" $idx) (eq $idx 0)) $gateway.httpsListenerName | quote }}
       hostname: {{ $hostname | quote }}
       port: 443
       protocol: HTTPS
@@ -41,5 +43,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
+{{- end }}
 {{- end }}
 {{- end }}

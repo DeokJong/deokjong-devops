@@ -6,5 +6,10 @@ syncWave: "0"
 
 route:
   enabled: true
+  gatewayOverride:
+    - name: private-gateway
+      namespace: gateway-system
+      sectionName: https-1
+      httpSectionName: http-1
   hostnames:
     - sandbox.jinjin99.xyz

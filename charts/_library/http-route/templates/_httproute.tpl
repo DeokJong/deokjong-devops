@@ -25,7 +25,13 @@ spec:
 {{- end }}
   parentRefs:
 {{- if $gatewayOverride }}
-{{ toYaml $gatewayOverride | indent 4 }}
+{{- range $parentRef := $gatewayOverride }}
+    - group: {{ default "gateway.networking.k8s.io" $parentRef.group | quote }}
+      kind: {{ default "Gateway" $parentRef.kind | quote }}
+      name: {{ required "route.gatewayOverride[].name is required" $parentRef.name | quote }}
+      namespace: {{ default "gateway-system" $parentRef.namespace | quote }}
+      sectionName: {{ default "https" $parentRef.sectionName | quote }}
+{{- end }}
 {{- else }}
 {{- if or (eq $gatewayType "public") (eq $gatewayType "all") }}
     - group: gateway.networking.k8s.io
