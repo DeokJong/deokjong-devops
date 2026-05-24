@@ -2,9 +2,6 @@
 {{- $root := .root -}}
 {{- $route := default dict .route -}}
 {{- $gatewayType := default "public" $route.gatewayType -}}
-{{- $hostnameType := default "wildcard" $route.hostnameType -}}
-{{- $httpsSectionName := printf "https-%s" $hostnameType -}}
-{{- $httpSectionName := printf "http-%s" $hostnameType -}}
 {{- $gatewayOverride := default list $route.gatewayOverride -}}
 {{- $backendRefs := required "route.backendRefs is required" $route.backendRefs -}}
 {{- $redirect := default dict $route.redirect -}}
@@ -14,9 +11,6 @@
 {{- end }}
 {{- if not (has $gatewayType (list "public" "private" "all")) }}
 {{- fail "route.gatewayType must be one of: public, private, all" }}
-{{- end }}
-{{- if not (has $hostnameType (list "wildcard" "apex")) }}
-{{- fail "route.hostnameType must be one of: wildcard, apex" }}
 {{- end }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -36,7 +30,7 @@ spec:
       kind: {{ default "Gateway" $parentRef.kind | quote }}
       name: {{ required "route.gatewayOverride[].name is required" $parentRef.name | quote }}
       namespace: {{ default "gateway-system" $parentRef.namespace | quote }}
-      sectionName: {{ default $httpsSectionName $parentRef.sectionName | quote }}
+      sectionName: {{ default "https" $parentRef.sectionName | quote }}
 {{- end }}
 {{- else }}
 {{- if or (eq $gatewayType "public") (eq $gatewayType "all") }}
@@ -44,14 +38,14 @@ spec:
       kind: Gateway
       name: "public-gateway"
       namespace: "gateway-system"
-      sectionName: {{ $httpsSectionName | quote }}
+      sectionName: "https"
 {{- end }}
 {{- if or (eq $gatewayType "private") (eq $gatewayType "all") }}
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: "private-gateway"
       namespace: "gateway-system"
-      sectionName: {{ $httpsSectionName | quote }}
+      sectionName: "https"
 {{- end }}
 {{- end }}
   rules:
@@ -89,7 +83,7 @@ spec:
       kind: {{ default "Gateway" $parentRef.kind | quote }}
       name: {{ required "route.gatewayOverride[].name is required" $parentRef.name | quote }}
       namespace: {{ default "gateway-system" $parentRef.namespace | quote }}
-      sectionName: {{ default $httpSectionName $parentRef.httpSectionName | quote }}
+      sectionName: {{ default "http" $parentRef.httpSectionName | quote }}
 {{- end }}
 {{- else }}
 {{- if or (eq $gatewayType "public") (eq $gatewayType "all") }}
@@ -97,14 +91,14 @@ spec:
       kind: Gateway
       name: "public-gateway"
       namespace: "gateway-system"
-      sectionName: {{ $httpSectionName | quote }}
+      sectionName: "http"
 {{- end }}
 {{- if or (eq $gatewayType "private") (eq $gatewayType "all") }}
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: "private-gateway"
       namespace: "gateway-system"
-      sectionName: {{ $httpSectionName | quote }}
+      sectionName: "http"
 {{- end }}
 {{- end }}
   rules:

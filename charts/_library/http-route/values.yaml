@@ -4,7 +4,6 @@ route:
   namespace: ""
   hostnames: []
   gatewayType: public # or private or all
-  hostnameType: wildcard # or apex
   gatewayOverride: []
   backendRefs:
     - name: ""
