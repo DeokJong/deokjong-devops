@@ -1,0 +1,10 @@
+apiVersion: v2
+name: whoami
+description: whoami demo service chart
+type: application
+version: 0.1.0
+
+dependencies:
+- name: http-route
+  version: 0.1.0
+  repository: file://../../_library/http-route

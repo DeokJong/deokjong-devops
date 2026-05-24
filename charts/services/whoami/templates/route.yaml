@@ -1,0 +1,5 @@
+{{- with .Values.route }}
+{{- if .enabled }}
+{{ include "http-route.httproute" (dict "root" $ "route" .) }}
+{{- end }}
+{{- end }}
