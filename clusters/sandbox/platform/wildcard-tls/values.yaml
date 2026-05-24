@@ -13,18 +13,12 @@ gateways:
   - name: public-gateway
     enabled: true
     exposure: public
-    hostnames:
-      - "*.sandbox.jinjin99.xyz"
-      - sandbox.jinjin99.xyz
     allowedRoutes:
       namespaces:
         from: All
   - name: private-gateway
     enabled: true
     exposure: private
-    hostnames:
-      - "*.sandbox.jinjin99.xyz"
-      - sandbox.jinjin99.xyz
     allowedRoutes:
       namespaces:
         from: All
