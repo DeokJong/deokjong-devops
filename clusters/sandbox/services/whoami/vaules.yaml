@@ -1,0 +1,10 @@
+appName: whoami
+chartPath: charts/services/whoami
+releaseName: whoami
+namespace: whoami
+syncWave: "0"
+
+route:
+  enabled: true
+  hostnames:
+    - sandbox.jinjin99.xyz
