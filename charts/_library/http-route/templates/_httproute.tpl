@@ -60,7 +60,7 @@ spec:
         - kind: {{ default "Service" $backendRef.kind | quote }}
           name: {{ required "route.backendRefs[].name is required" $backendRef.name | quote }}
           port: {{ required "route.backendRefs[].port is required" $backendRef.port }}
-          group: {{ default "v1" $backendRef.group | quote }}
+          group: {{ default "" $backendRef.group | quote }}
           weight: {{ default 1 $backendRef.weight }}
 {{- end }}
 {{- if default true $redirect.enabled }}
