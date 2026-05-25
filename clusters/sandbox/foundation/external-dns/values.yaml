@@ -1,9 +1,3 @@
-appName: foundation-external-dns
-chartPath: charts/foundation/external-dns
-releaseName: external-dns
-namespace: external-dns
-syncWave: "0"
-
 external-dns-private:
   fullnameOverride: external-dns-private
   serviceAccount:

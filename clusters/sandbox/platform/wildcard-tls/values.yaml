@@ -1,9 +1,3 @@
-appName: platform-wildcard-cert
-chartPath: charts/platform/wildcard-tls
-releaseName: wildcard-tls
-namespace: gateway-system
-syncWave: "0"
-
 name: wildcard
 clusterIssuerName: cluster-issuer
 dnsNames:

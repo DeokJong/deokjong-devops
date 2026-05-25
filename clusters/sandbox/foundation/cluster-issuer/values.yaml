@@ -1,9 +1,3 @@
-appName: foundation-cluster-issuer
-chartPath: charts/foundation/cluster-issuer
-releaseName: cluster-issuer
-namespace: cert-manager
-syncWave: "0"
-
 email: "novelss5573@gmail.com"
 solvers:
   - dns01:

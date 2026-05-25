@@ -1,9 +1,3 @@
-appName: bootstrap
-chartPath: charts/bootstrap
-releaseName: bootstrap
-namespace: argocd
-syncWave: "-1"
-
 argo-cd:
   global:
     tolerations:

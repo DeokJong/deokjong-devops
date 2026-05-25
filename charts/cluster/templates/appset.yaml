@@ -11,21 +11,21 @@ spec:
         repoURL: {{ .Values.global.repoURL }}
         revision: {{ .Values.global.targetRevision }}
         files:
-          - path: "{{ .Values.global.basePath }}/**/values.yaml"
+          - path: "{{ .Values.global.basePath }}/**/app.yaml"
   template:
     metadata:
       name: '{{`{{ .appName }}`}}'
       namespace: {{ .Release.Namespace }}
       annotations:
-        argocd.argoproj.io/sync-wave: '{{`{{ .syncWave }}`}}'
+        argocd.argoproj.io/sync-wave: '{{`{{ dig "syncWave" "0" . }}`}}'
     spec:
       project: {{ .Values.global.project }}
       sources:
         - repoURL: {{ .Values.global.repoURL }}
           targetRevision: {{ .Values.global.targetRevision }}
-          path: '{{`{{ .chartPath }}`}}'
+          path: '{{`{{ dig "chartPath" (printf "charts/%s" (trimPrefix "`}}{{ .Values.global.basePath }}/{{`" (index .path "path"))) . }}`}}'
           helm:
-            releaseName: '{{`{{ .releaseName }}`}}'
+            releaseName: '{{`{{ dig "releaseName" (index .path "path" | base) . }}`}}'
             valueFiles:
               - $values/{{ .Values.global.basePath }}/config.yaml
               - $values/{{`{{ index .path "path" }}`}}/values.yaml
@@ -42,3 +42,19 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+  templatePatch: |
+    {{`{{- if and (hasKey . "enabled") (not .enabled) }}`}}
+    metadata:
+      annotations:
+        app.kubernetes.io/managed-by: disabled
+    spec:
+      syncPolicy: {}
+    {{`{{- end }}`}}
+    {{`{{- if hasKey . "syncPolicy" }}`}}
+    spec:
+      syncPolicy: {{`{{ toYaml .syncPolicy | nindent 8 }}`}}
+    {{`{{- end }}`}}
+    {{`{{- if hasKey . "ignoreDifferences" }}`}}
+    spec:
+      ignoreDifferences: {{`{{ toYaml .ignoreDifferences | nindent 8 }}`}}
+    {{`{{- end }}`}}
