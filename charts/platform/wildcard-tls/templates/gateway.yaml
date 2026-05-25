@@ -35,6 +35,7 @@ spec:
         certificateRefs:
           - kind: Secret
             name: {{ $secretName | quote }}
+            group: {{ default "" $gateway.group | quote }}
       allowedRoutes:
         namespaces:
           from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
