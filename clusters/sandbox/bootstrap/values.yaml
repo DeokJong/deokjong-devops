@@ -5,7 +5,7 @@ argo-cd:
         type: helm
         name: gha-runner-scale-set-controller
         url: ghcr.io/actions/actions-runner-controller-charts
-        enableOCI: true
+        enableOCI: "true"
   global:
     tolerations:
       - key: CriticalAddonsOnly
