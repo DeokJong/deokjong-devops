@@ -32,13 +32,21 @@ spec:
               if [ ! -f /data/.server-initialized ]; then
                 echo "==> Downloading server pack..."
                 apk add --no-cache unzip > /dev/null
-                wget -q -O /tmp/serverpack "{{ .Values.serverPack.url }}"
+                echo "==> Fetching: {{ .Values.serverPack.url }}"
+                wget --show-progress -O /tmp/serverpack "{{ .Values.serverPack.url }}"
+                FILESIZE=$(wc -c < /tmp/serverpack)
+                echo "==> Downloaded ${FILESIZE} bytes"
+                if [ "$FILESIZE" -lt 1048576 ]; then
+                  echo "==> ERROR: download too small, likely an error page" && exit 1
+                fi
                 if unzip -t /tmp/serverpack > /dev/null 2>&1; then
+                  echo "==> Extracting as zip..."
                   unzip -q /tmp/serverpack -d /data/
                 elif tar -tzf /tmp/serverpack > /dev/null 2>&1; then
+                  echo "==> Extracting as tar.gz..."
                   tar -xzf /tmp/serverpack -C /data/
                 else
-                  echo "Unsupported archive format" && exit 1
+                  echo "==> ERROR: unsupported archive format" && exit 1
                 fi
                 rm /tmp/serverpack
                 touch /data/.server-initialized
