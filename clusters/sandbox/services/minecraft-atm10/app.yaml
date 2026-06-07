@@ -1,4 +1,4 @@
-appName: service-minecraft-atm10
-namespace: minecraft-atm10
-chartPath: charts/services/minecraft
-releaseName: atm10
+#appName: service-minecraft-atm10
+#namespace: minecraft-atm10
+#chartPath: charts/services/minecraft
+#releaseName: atm10
