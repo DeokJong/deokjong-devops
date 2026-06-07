@@ -107,9 +107,8 @@ spec:
                   - -c
                   - |
                     rcon-cli say {{ .Values.gracefulShutdown.warningMessage | quote }}
-                    sleep {{ .Values.gracefulShutdown.warningSeconds }}
                     rcon-cli save-all
-                    sleep 3
+                    sleep {{ .Values.gracefulShutdown.warningSeconds }}
                     rcon-cli stop
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
