@@ -18,6 +18,7 @@ metadata:
 spec:
   gatewayClassName: {{ default $root.Values.gatewayClassName $gateway.gatewayClassName | quote }}
   listeners:
+    {{- if not $gateway.disableDefaultListeners }}
     - name: "http"
       port: 80
       protocol: HTTP
@@ -37,6 +38,7 @@ spec:
       allowedRoutes:
         namespaces:
           from: {{ $from | quote }}
+    {{- end }}
     {{- range $gateway.extraListeners }}
     - {{ toYaml . | nindent 6 | trim }}
     {{- end }}
