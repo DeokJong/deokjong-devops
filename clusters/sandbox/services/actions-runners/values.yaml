@@ -1,2 +1,0 @@
-gha-runner-scale-set-controller:
-  namespaceOverride: actions-runner-controller
