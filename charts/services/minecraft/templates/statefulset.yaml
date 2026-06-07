@@ -17,6 +17,24 @@ spec:
         {{- include "minecraft.labels" . | nindent 8 }}
     spec:
       terminationGracePeriodSeconds: {{ .Values.gracefulShutdown.terminationGracePeriodSeconds }}
+      {{- if .Values.mods }}
+      initContainers:
+        - name: mod-downloader
+          image: {{ .Values.modDownloader.image }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              mkdir -p /mods
+              {{- range .Values.mods }}
+              echo "Downloading {{ . }}"
+              wget -q -O /mods/$(basename {{ . }}) {{ . }}
+              {{- end }}
+          volumeMounts:
+            - name: mods
+              mountPath: /mods
+      {{- end }}
       containers:
         - name: minecraft
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -32,10 +50,6 @@ spec:
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
-            {{- end }}
-            {{- if .Values.mods }}
-            - name: MODS
-              value: {{ join "," .Values.mods | quote }}
             {{- end }}
           lifecycle:
             preStop:
@@ -54,6 +68,15 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+            {{- if .Values.mods }}
+            - name: mods
+              mountPath: /data/mods
+            {{- end }}
+      {{- if .Values.mods }}
+      volumes:
+        - name: mods
+          emptyDir: {}
+      {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: data

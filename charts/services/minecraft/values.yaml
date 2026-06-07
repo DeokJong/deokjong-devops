@@ -18,9 +18,12 @@ env:
   ENABLE_RCON: "true"
   RCON_PASSWORD: "changeme"
 
-# Comma-joined URLs passed to itzg MODS env var (downloaded at startup)
+# Init container가 서버 시작 전에 /data/mods 로 다운로드
 mods: []
 # - https://cdn.modrinth.com/data/xxx/versions/yyy/mod.jar
+
+modDownloader:
+  image: alpine:3.20
 
 route:
   gateway:
