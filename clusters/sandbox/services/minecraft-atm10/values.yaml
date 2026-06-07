@@ -13,7 +13,7 @@ env:
   DIFFICULTY: normal
 
 serverPack:
-  url: https://www.curseforge.com/api/v1/mods/925200/files/8091114/download
+  url: https://www.curseforge.com/api/v1/mods/925200/files/8094893/download
 
 mods: []
 
