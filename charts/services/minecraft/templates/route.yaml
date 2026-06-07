@@ -7,10 +7,15 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: {{ include "minecraft.hostname" . | quote }}
 spec:
   parentRefs:
-    - name: {{ .Values.route.gateway.name | quote }}
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: {{ .Values.route.gateway.name | quote }}
       namespace: {{ .Values.route.gateway.namespace | quote }}
       sectionName: {{ .Values.route.gateway.sectionName | quote }}
   rules:
     - backendRefs:
-        - name: minecraft
+        - group: ""
+          kind: Service
+          name: minecraft
           port: {{ .Values.service.port }}
+          weight: 1

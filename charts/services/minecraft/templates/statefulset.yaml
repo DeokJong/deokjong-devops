@@ -33,17 +33,13 @@ spec:
                 echo "==> Downloading server pack..."
                 apk add --no-cache unzip > /dev/null
                 wget -q -O /tmp/serverpack "{{ .Values.serverPack.url }}"
-                case "{{ .Values.serverPack.url }}" in
-                  *.zip)
-                    unzip -q /tmp/serverpack -d /data/
-                    ;;
-                  *.tar.gz|*.tgz)
-                    tar -xzf /tmp/serverpack -C /data/
-                    ;;
-                  *)
-                    echo "Unsupported archive format" && exit 1
-                    ;;
-                esac
+                if unzip -t /tmp/serverpack > /dev/null 2>&1; then
+                  unzip -q /tmp/serverpack -d /data/
+                elif tar -tzf /tmp/serverpack > /dev/null 2>&1; then
+                  tar -xzf /tmp/serverpack -C /data/
+                else
+                  echo "Unsupported archive format" && exit 1
+                fi
                 rm /tmp/serverpack
                 touch /data/.server-initialized
                 echo "==> Server pack extracted"
@@ -120,7 +116,9 @@ spec:
           emptyDir: {}
       {{- end }}
   volumeClaimTemplates:
-    - metadata:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         name: data
       spec:
         accessModes: ["ReadWriteOnce"]

@@ -61,6 +61,14 @@
 - HTTP → HTTPS 리다이렉트는 `http` 리스너에 연결된 별도 HTTPRoute로 구현한다.
 - TLS 종료는 Gateway에서 처리한다. 백엔드는 일반적으로 HTTP 서비스 포트(예: Argo CD server 포트 `80`)를 사용한다.
 
+## ArgoCD Diff 방지 규칙
+
+ArgoCD는 Kubernetes API server가 주입하는 default 값과 템플릿에 없는 필드를 diff로 감지한다. 아래 필드는 반드시 템플릿에 명시한다.
+
+- HTTPRoute / TCPRoute `parentRefs` 에는 `group: gateway.networking.k8s.io` 와 `kind: Gateway` 를 명시한다.
+- HTTPRoute / TCPRoute `backendRefs` 에는 `group: ""`, `kind: Service`, `weight: 1` 을 명시한다.
+- StatefulSet `volumeClaimTemplates` 항목에는 `apiVersion: v1` 과 `kind: PersistentVolumeClaim` 을 명시한다.
+
 ## Bootstrap Caution
 
 - `bootstrap` 은 Argo CD 자체를 설치한다.
