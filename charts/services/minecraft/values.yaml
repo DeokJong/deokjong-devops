@@ -3,7 +3,8 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-hostname: ""
+serverName: ""   # e.g. atm10 → atm10.{baseDomain}
+baseDomain: ""   # e.g. mc.jinjin99.xyz
 
 env:
   EULA: "TRUE"

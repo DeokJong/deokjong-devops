@@ -4,7 +4,7 @@ metadata:
   name: minecraft
   namespace: {{ include "minecraft.namespace" . }}
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{ required "hostname is required" .Values.hostname | quote }}
+    external-dns.alpha.kubernetes.io/hostname: {{ include "minecraft.hostname" . | quote }}
 spec:
   parentRefs:
     - name: {{ .Values.route.gateway.name | quote }}
