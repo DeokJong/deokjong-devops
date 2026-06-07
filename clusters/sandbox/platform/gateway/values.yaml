@@ -1,6 +1,8 @@
 gateways:
   - name: public-gateway
     exposure: public
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
     certificateRef:
       name: wildcard-sandbox-jinjin99-xyz-tls
     allowedRoutes:
