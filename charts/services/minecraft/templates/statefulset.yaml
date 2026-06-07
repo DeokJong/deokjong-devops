@@ -16,6 +16,7 @@ spec:
       labels:
         {{- include "minecraft.labels" . | nindent 8 }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.gracefulShutdown.terminationGracePeriodSeconds }}
       containers:
         - name: minecraft
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -24,11 +25,30 @@ spec:
             - name: minecraft
               containerPort: 25565
               protocol: TCP
+            - name: rcon
+              containerPort: 25575
+              protocol: TCP
           env:
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}
+            {{- if .Values.mods }}
+            - name: MODS
+              value: {{ join "," .Values.mods | quote }}
+            {{- end }}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    rcon-cli say {{ .Values.gracefulShutdown.warningMessage | quote }}
+                    sleep {{ .Values.gracefulShutdown.warningSeconds }}
+                    rcon-cli save-all
+                    sleep 3
+                    rcon-cli stop
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

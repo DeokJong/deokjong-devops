@@ -1,5 +1,3 @@
-namespace: minecraft
-
 image:
   repository: itzg/minecraft-server
   tag: latest
@@ -9,22 +7,38 @@ hostname: ""
 
 env:
   EULA: "TRUE"
-  TYPE: VANILLA
+  TYPE: FABRIC
   VERSION: LATEST
   MEMORY: 2G
   DIFFICULTY: normal
   MAX_PLAYERS: "20"
   VIEW_DISTANCE: "10"
   ONLINE_MODE: "true"
+  ENABLE_RCON: "true"
+  RCON_PASSWORD: "changeme"
+
+# Comma-joined URLs passed to itzg MODS env var (downloaded at startup)
+mods: []
+# - https://cdn.modrinth.com/data/xxx/versions/yyy/mod.jar
+
+route:
+  gateway:
+    name: public-gateway
+    namespace: gateway-system
+    sectionName: minecraft
 
 service:
-  type: LoadBalancer
   port: 25565
   annotations: {}
 
 storage:
   size: 10Gi
   storageClassName: ""
+
+gracefulShutdown:
+  warningMessage: "Server shutting down..."
+  warningSeconds: 30
+  terminationGracePeriodSeconds: 120
 
 resources:
   requests:

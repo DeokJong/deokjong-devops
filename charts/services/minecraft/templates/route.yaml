@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: minecraft
+  namespace: {{ include "minecraft.namespace" . }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ required "hostname is required" .Values.hostname | quote }}
+spec:
+  parentRefs:
+    - name: {{ .Values.route.gateway.name | quote }}
+      namespace: {{ .Values.route.gateway.namespace | quote }}
+      sectionName: {{ .Values.route.gateway.sectionName | quote }}
+  rules:
+    - backendRefs:
+        - name: minecraft
+          port: {{ .Values.service.port }}
