@@ -19,6 +19,7 @@ mods: []
 
 storage:
   size: 30Gi
+  storageClassName: gp3
 
 gracefulShutdown:
   warningMessage: "Server shutting down..."
