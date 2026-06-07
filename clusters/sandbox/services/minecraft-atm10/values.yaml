@@ -1,0 +1,34 @@
+serverName: atm10
+baseDomain: mc.jinjin99.xyz
+
+env:
+  EULA: "TRUE"
+  TYPE: NEOFORGE
+  VERSION: "1.21.1"
+  MEMORY: 10G
+  MAX_PLAYERS: "20"
+  VIEW_DISTANCE: "8"
+  ONLINE_MODE: "true"
+  ENABLE_RCON: "true"
+  DIFFICULTY: normal
+
+serverPack:
+  url: https://www.curseforge.com/api/v1/mods/925200/files/8091114/download
+
+mods: []
+
+storage:
+  size: 30Gi
+
+gracefulShutdown:
+  warningMessage: "Server shutting down..."
+  warningSeconds: 30
+  terminationGracePeriodSeconds: 300
+
+resources:
+  requests:
+    memory: 10Gi
+    cpu: "2"
+  limits:
+    memory: 12Gi
+    cpu: "4"
