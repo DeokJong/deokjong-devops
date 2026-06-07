@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Minecraft Helm Chart Values",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["serverName", "baseDomain"],
+  "properties": {
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pullPolicy": {
+          "type": "string",
+          "enum": ["Always", "IfNotPresent", "Never"]
+        }
+      }
+    },
+    "serverName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "서버 식별자. baseDomain 앞에 붙어 호스트명을 구성한다 (e.g. atm10 → atm10.mc.example.com)."
+    },
+    "baseDomain": {
+      "type": "string",
+      "minLength": 1,
+      "description": "베이스 도메인 (e.g. mc.example.com)."
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "itzg/minecraft-server 환경 변수. 키는 ALL_CAPS 규칙을 따른다. 주요 키: EULA(TRUE), TYPE(FABRIC/FORGE/…), VERSION, MEMORY(e.g. 2G), DIFFICULTY(peaceful/easy/normal/hard), MAX_PLAYERS, VIEW_DISTANCE, ONLINE_MODE(true/false), ENABLE_RCON(true/false). RCON_PASSWORD는 Secret으로 자동 생성되므로 여기에 지정하지 않는다."
+    },
+    "serverPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "서버팩 아카이브 URL (zip / tar.gz). 비워두면 서버팩을 사용하지 않는다."
+        }
+      }
+    },
+    "mods": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "description": "모드 JAR 파일의 다운로드 URL."
+      },
+      "description": "서버 시작 시 /data/mods 에 다운로드할 모드 URL 목록."
+    },
+    "modDownloader": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string",
+          "minLength": 1,
+          "description": "모드 다운로드에 사용할 initContainer 이미지 (wget 포함 필요)."
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gateway": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "namespace", "sectionName"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "namespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sectionName": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "type": "string",
+          "pattern": "^[0-9]+(Ki|Mi|Gi|Ti|Pi|Ei|k|M|G|T|P|E)?$",
+          "description": "PVC 요청 용량 (e.g. 10Gi)."
+        },
+        "storageClassName": {
+          "type": "string",
+          "description": "비워두면 클러스터 기본 StorageClass를 사용한다."
+        }
+      }
+    },
+    "gracefulShutdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "warningMessage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "warningSeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "terminationGracePeriodSeconds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requests": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "memory": { "type": "string" },
+            "cpu": { "type": "string" }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "memory": { "type": "string" },
+            "cpu": { "type": "string" }
+          }
+        }
+      }
+    },
+    "namespace": {
+      "type": "string",
+      "description": "비워두면 Helm release 네임스페이스를 사용한다."
+    }
+  }
+}

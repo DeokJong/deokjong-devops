@@ -3,20 +3,19 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-serverName: ""   # e.g. atm10 → atm10.{baseDomain}
-baseDomain: ""   # e.g. mc.jinjin99.xyz
+serverName: ""
+baseDomain: ""
 
 env:
   EULA: "TRUE"
   TYPE: FABRIC
   VERSION: LATEST
   MEMORY: 2G
-  DIFFICULTY: normal
   MAX_PLAYERS: "20"
   VIEW_DISTANCE: "10"
   ONLINE_MODE: "true"
   ENABLE_RCON: "true"
-  RCON_PASSWORD: "changeme"
+  DIFFICULTY: normal
 
 # 서버팩 아카이브 (zip / tar.gz) — 최초 실행 시 /data 에 압축 해제
 # 이후 재시작에는 .server-initialized 플래그로 건너뜀 (월드/설정 보존)
