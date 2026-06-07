@@ -17,7 +17,7 @@ spec:
         {{- include "minecraft.labels" . | nindent 8 }}
     spec:
       terminationGracePeriodSeconds: {{ .Values.gracefulShutdown.terminationGracePeriodSeconds }}
-      {{- if .Values.mods }}
+      {{- if or .Values.serverPack.url .Values.mods }}
       initContainers:
         - name: mod-downloader
           image: {{ .Values.modDownloader.image }}
@@ -26,14 +26,44 @@ spec:
             - -c
             - |
               set -e
-              mkdir -p /mods
+
+              {{- if .Values.serverPack.url }}
+              # 서버팩: 최초 실행 시에만 /data 에 압축 해제
+              if [ ! -f /data/.server-initialized ]; then
+                echo "==> Downloading server pack..."
+                apk add --no-cache unzip > /dev/null
+                wget -q -O /tmp/serverpack "{{ .Values.serverPack.url }}"
+                case "{{ .Values.serverPack.url }}" in
+                  *.zip)
+                    unzip -q /tmp/serverpack -d /data/
+                    ;;
+                  *.tar.gz|*.tgz)
+                    tar -xzf /tmp/serverpack -C /data/
+                    ;;
+                  *)
+                    echo "Unsupported archive format" && exit 1
+                    ;;
+                esac
+                rm /tmp/serverpack
+                touch /data/.server-initialized
+                echo "==> Server pack extracted"
+              else
+                echo "==> Server pack already initialized, skipping"
+              fi
+              {{- end }}
+
+              {{- if .Values.mods }}
+              # 추가 모드: 매 시작마다 새로 다운로드
+              echo "==> Downloading additional mods..."
+              mkdir -p /data/mods
               {{- range .Values.mods }}
-              echo "Downloading {{ . }}"
-              wget -q -O /mods/$(basename {{ . }}) {{ . }}
+              wget -q -O /data/mods/$(basename "{{ . }}") "{{ . }}"
+              {{- end }}
+              echo "==> Mods downloaded"
               {{- end }}
           volumeMounts:
-            - name: mods
-              mountPath: /mods
+            - name: data
+              mountPath: /data
       {{- end }}
       containers:
         - name: minecraft
@@ -68,15 +98,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-            {{- if .Values.mods }}
-            - name: mods
-              mountPath: /data/mods
-            {{- end }}
-      {{- if .Values.mods }}
-      volumes:
-        - name: mods
-          emptyDir: {}
-      {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: data

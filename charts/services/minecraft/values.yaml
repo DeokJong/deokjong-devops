@@ -18,7 +18,13 @@ env:
   ENABLE_RCON: "true"
   RCON_PASSWORD: "changeme"
 
-# Init container가 서버 시작 전에 /data/mods 로 다운로드
+# 서버팩 아카이브 (zip / tar.gz) — 최초 실행 시 /data 에 압축 해제
+# 이후 재시작에는 .server-initialized 플래그로 건너뜀 (월드/설정 보존)
+serverPack:
+  url: ""
+  # e.g. https://example.com/atm10-server-1.0.0.zip
+
+# 서버팩 외에 추가로 주입할 개별 모드 (항상 /data/mods 로 새로 다운로드)
 mods: []
 # - https://cdn.modrinth.com/data/xxx/versions/yyy/mod.jar
 
