@@ -28,8 +28,5 @@ gracefulShutdown:
 
 resources:
   requests:
-    memory: 10Gi
-    cpu: "3"
-  limits:
     memory: 12Gi
     cpu: "3"
