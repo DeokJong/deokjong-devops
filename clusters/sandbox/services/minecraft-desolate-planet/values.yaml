@@ -23,7 +23,7 @@ storage:
 
 gracefulShutdown:
   warningMessage: "Server shutting down..."
-  warningSeconds: 30
+  warningSeconds: 90
   terminationGracePeriodSeconds: 120
 
 resources:
