@@ -31,13 +31,13 @@ spec:
               # 서버팩: 최초 실행 시에만 /data 에 압축 해제
               if [ ! -f /data/.server-initialized ]; then
                 echo "==> Downloading server pack..."
-                apk add --no-cache unzip > /dev/null
+                apk add --no-cache unzip curl > /dev/null
                 echo "==> Fetching: {{ .Values.serverPack.url }}"
-                wget --show-progress -O /tmp/serverpack "{{ .Values.serverPack.url }}"
+                curl -fsSL --progress-bar -L -o /tmp/serverpack "{{ .Values.serverPack.url }}"
                 FILESIZE=$(wc -c < /tmp/serverpack)
                 echo "==> Downloaded ${FILESIZE} bytes"
                 if [ "$FILESIZE" -lt 1048576 ]; then
-                  echo "==> ERROR: download too small, likely an error page" && exit 1
+                  echo "==> ERROR: download too small (${FILESIZE} bytes), likely an error page" && exit 1
                 fi
                 if unzip -t /tmp/serverpack > /dev/null 2>&1; then
                   echo "==> Extracting as zip..."
