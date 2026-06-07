@@ -10,9 +10,42 @@ spec:
   hostnames:
 {{- toYaml .hostnames | nindent 4 }}
   parentRefs:
-{{- toYaml .parentRefs | nindent 4 }}
+{{- range .parentRefs }}
+    - group: {{ default "gateway.networking.k8s.io" .group | quote }}
+      kind: {{ default "Gateway" .kind | quote }}
+      name: {{ required "parentRef.name is required" .name | quote }}
+      {{- with .namespace }}
+      namespace: {{ . | quote }}
+      {{- end }}
+      {{- with .sectionName }}
+      sectionName: {{ . | quote }}
+      {{- end }}
+{{- end }}
   rules:
-{{- toYaml .rules | nindent 4 }}
+{{- range .rules }}
+    - matches:
+      {{- if .matches }}
+      {{- toYaml .matches | nindent 8 }}
+      {{- else }}
+        - path:
+            type: PathPrefix
+            value: /
+      {{- end }}
+      {{- with .filters }}
+      filters:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .backendRefs }}
+      backendRefs:
+      {{- range . }}
+        - group: {{ default "" .group | quote }}
+          kind: {{ default "Service" .kind | quote }}
+          name: {{ required "backendRef.name is required" .name | quote }}
+          port: {{ required "backendRef.port is required" .port }}
+          weight: {{ default 1 .weight }}
+      {{- end }}
+      {{- end }}
+{{- end }}
 {{- with .redirect }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -24,9 +57,23 @@ spec:
   hostnames:
 {{- toYaml $.Values.route.hostnames | nindent 4 }}
   parentRefs:
-{{- toYaml .parentRefs | nindent 4 }}
+{{- range .parentRefs }}
+    - group: {{ default "gateway.networking.k8s.io" .group | quote }}
+      kind: {{ default "Gateway" .kind | quote }}
+      name: {{ required "parentRef.name is required" .name | quote }}
+      {{- with .namespace }}
+      namespace: {{ . | quote }}
+      {{- end }}
+      {{- with .sectionName }}
+      sectionName: {{ . | quote }}
+      {{- end }}
+{{- end }}
   rules:
-    - filters:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
         - type: RequestRedirect
           requestRedirect:
             scheme: https
