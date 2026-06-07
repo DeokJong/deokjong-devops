@@ -13,15 +13,11 @@ nodeClasses: []
 nodePools: []
 storageClasses: []
 
+argocdNamespace: argocd
+
 argocdRoute:
   enabled: false
-  name: argocd-server
-  namespace: argocd
   hostnames: []
-  gatewayType: private
-  backendRefs:
-    - name: bootstrap-argocd-server
-      port: 80
-  redirect:
-    enabled: true
-    statusCode: 301
+  parentRefs: []
+  rules: []
+  redirect: {}

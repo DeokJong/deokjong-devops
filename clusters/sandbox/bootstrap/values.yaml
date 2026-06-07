@@ -54,10 +54,20 @@ argocdRoute:
   enabled: true
   hostnames:
     - argocd.sandbox.jinjin99.xyz
-  gatewayType: private
-  backendRefs:
-    - name: bootstrap-argocd-server
-      port: 80
+  parentRefs:
+    - name: private-gateway
+      namespace: gateway-system
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: bootstrap-argocd-server
+          port: 80
+  redirect:
+    parentRefs:
+      - name: private-gateway
+        namespace: gateway-system
+        sectionName: http
+    statusCode: 301
 
 nodeClasses:
   - name: default-deokjong
