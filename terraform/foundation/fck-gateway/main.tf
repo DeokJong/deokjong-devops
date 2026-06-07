@@ -6,7 +6,7 @@ module "fck-gateway" {
   subnet_id           = local.public_subnet_ids[0]
   ha_mode             = true
   instance_type       = "t4g.micro"
-  use_spot_instances  = true
+  use_spot_instances  = false
   update_route_tables = true
   route_tables_ids = {
     for idx, rtb_id in local.private_route_table_ids :
