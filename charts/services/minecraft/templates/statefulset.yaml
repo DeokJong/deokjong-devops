@@ -13,6 +13,8 @@ spec:
       {{- include "minecraft.labels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        karpenter.sh/do-not-disrupt: "true"
       labels:
         {{- include "minecraft.labels" . | nindent 8 }}
     spec:
