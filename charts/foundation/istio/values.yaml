@@ -33,6 +33,9 @@ components:
     syncWave: "1"
     helmValues:
       profile: ambient
+      pilot:
+        env:
+          PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
     ignoreDifferences:
       - group: admissionregistration.k8s.io
         kind: ValidatingWebhookConfiguration
