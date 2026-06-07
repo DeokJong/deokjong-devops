@@ -43,8 +43,12 @@ argo-cd:
       - key: CriticalAddonsOnly
         operator: Exists
         effect: NoSchedule
+    redis:
+      config:
+        min-slaves-to-write: "0"
     haproxy:
       hardAntiAffinity: false
+      replicas: 2
       tolerations:
         - key: CriticalAddonsOnly
           operator: Exists
