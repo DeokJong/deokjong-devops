@@ -50,20 +50,27 @@ spec:
               else
                 echo "==> Server pack already initialized, skipping"
               fi
+
+              # 서버팩 모드를 emptyDir 로 복사
+              if [ -d /data/mods ]; then
+                echo "==> Copying server pack mods..."
+                cp -r /data/mods/. /mods/
+              fi
               {{- end }}
 
               {{- if .Values.mods }}
-              # 추가 모드: 매 시작마다 새로 다운로드
-              echo "==> Downloading additional mods..."
-              mkdir -p /data/mods
+              # 추가 모드: emptyDir 에 다운로드 (매 시작마다 선언 상태로 유지)
+              echo "==> Downloading extra mods..."
               {{- range .Values.mods }}
-              wget -q -O /data/mods/$(basename "{{ . }}") "{{ . }}"
+              wget -q -O /mods/$(basename "{{ . }}") "{{ . }}"
               {{- end }}
-              echo "==> Mods downloaded"
+              echo "==> Extra mods downloaded"
               {{- end }}
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: mods
+              mountPath: /mods
       {{- end }}
       containers:
         - name: minecraft
@@ -98,6 +105,15 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+            {{- if or .Values.serverPack.url .Values.mods }}
+            - name: mods
+              mountPath: /data/mods
+            {{- end }}
+      {{- if or .Values.serverPack.url .Values.mods }}
+      volumes:
+        - name: mods
+          emptyDir: {}
+      {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: data
