@@ -47,6 +47,7 @@
 - `required` 템플릿 체크가 있는 필드는 스키마의 `required` 배열에도 포함한다.
 - `additionalProperties: false` 를 최상위 및 중첩 객체에 적용해 오타를 조기에 차단한다.
 - enum 제약이 있는 필드(예: `pullPolicy`, `difficulty`)는 스키마에 `enum` 으로 명시한다.
+- `clusters/{clusterName}/config.yaml` 은 모든 차트에 공통으로 주입되므로, 스키마 최상위에 `global` 프로퍼티를 반드시 허용해야 한다. 누락 시 ArgoCD 렌더링 시 `additional properties 'global' not allowed` 오류가 발생한다.
 
 ## Gateway And HTTPRoute Convention
 
