@@ -1,0 +1,4 @@
+appName: service-minecraft-desolate-planet
+namespace: minecraft-desolate-planet
+chartPath: charts/services/minecraft
+releaseName: desolate-planet

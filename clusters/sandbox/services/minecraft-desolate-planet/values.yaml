@@ -1,0 +1,35 @@
+serverName: desolate-planet
+baseDomain: mc.jinjin99.xyz
+
+env:
+  EULA: "TRUE"
+  TYPE: FORGE
+  VERSION: "1.20.1"
+  MEMORY: 10G
+  MAX_PLAYERS: "20"
+  VIEW_DISTANCE: "8"
+  ONLINE_MODE: "true"
+  ENABLE_RCON: "true"
+  DIFFICULTY: normal
+
+serverPack:
+  url: https://www.curseforge.com/api/v1/mods/1318843/files/7767901/download
+
+mods: []
+
+storage:
+  size: 30Gi
+  storageClassName: gp3
+
+gracefulShutdown:
+  warningMessage: "Server shutting down..."
+  warningSeconds: 30
+  terminationGracePeriodSeconds: 120
+
+resources:
+  requests:
+    memory: 10Gi
+    cpu: "3"
+  limits:
+    memory: 12Gi
+    cpu: "3"
