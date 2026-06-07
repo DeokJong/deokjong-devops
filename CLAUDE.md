@@ -38,6 +38,16 @@
 - 재사용 가능한 템플릿 로직만 필요한 경우 `charts/_library` 아래에 배치한다.
 - 라이브러리 차트는 독립 Application으로 등록하지 않는다.
 
+## Chart Schema Rules
+
+- 모든 차트는 `values.schema.json` 을 반드시 포함해야 한다.
+- 차트를 새로 만들 때 `values.schema.json` 을 함께 작성한다.
+- `values.yaml` 의 인터페이스(키 추가·삭제·타입 변경)를 수정할 때는 `values.schema.json` 도 반드시 동기화한다.
+- 스키마는 `$schema: https://json-schema.org/draft-07/schema#` 를 명시한다.
+- `required` 템플릿 체크가 있는 필드는 스키마의 `required` 배열에도 포함한다.
+- `additionalProperties: false` 를 최상위 및 중첩 객체에 적용해 오타를 조기에 차단한다.
+- enum 제약이 있는 필드(예: `pullPolicy`, `difficulty`)는 스키마에 `enum` 으로 명시한다.
+
 ## Gateway And HTTPRoute Convention
 
 - Platform Gateway 리소스는 `charts/platform/wildcard-tls` 가 생성한다.
