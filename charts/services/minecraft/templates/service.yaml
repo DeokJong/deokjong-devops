@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft
+  namespace: {{ include "minecraft.namespace" . }}
+  labels:
+    {{- include "minecraft.labels" . | nindent 4 }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ required "hostname is required" .Values.hostname | quote }}
+    {{- with .Values.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "minecraft.labels" . | nindent 4 }}
+  ports:
+    - name: minecraft
+      port: {{ .Values.service.port }}
+      targetPort: minecraft
+      protocol: TCP

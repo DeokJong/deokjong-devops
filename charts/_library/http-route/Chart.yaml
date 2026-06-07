@@ -1,5 +1,0 @@
-apiVersion: v2
-name: http-route
-description: Library templates for Gateway API HTTPRoute resources
-type: library
-version: 0.1.0

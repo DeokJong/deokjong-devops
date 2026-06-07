@@ -1,0 +1,36 @@
+{{- with .Values.route }}
+{{- if .enabled }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Release.Name }}
+  namespace: {{ default $.Release.Namespace $.Values.namespace }}
+spec:
+  hostnames:
+{{- toYaml .hostnames | nindent 4 }}
+  parentRefs:
+{{- toYaml .parentRefs | nindent 4 }}
+  rules:
+{{- toYaml .rules | nindent 4 }}
+{{- with .redirect }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Release.Name }}-redirect
+  namespace: {{ default $.Release.Namespace $.Values.namespace }}
+spec:
+  hostnames:
+{{- toYaml $.Values.route.hostnames | nindent 4 }}
+  parentRefs:
+{{- toYaml .parentRefs | nindent 4 }}
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: {{ default 301 .statusCode }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,7 +1,5 @@
 name: wildcard
+namespace: gateway-system
 clusterIssuerName: ""
-namespace: "gateway-system"
-gatewayClassName: istio
 
 dnsNames: []
-gateways: []

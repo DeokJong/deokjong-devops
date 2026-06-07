@@ -2,3 +2,27 @@ route:
   enabled: true
   hostnames:
     - sandbox.jinjin99.xyz
+  parentRefs:
+    - name: private-gateway
+      namespace: gateway-system
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /whoami
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: whoami
+          port: 80
+  redirect:
+    parentRefs:
+      - name: private-gateway
+        namespace: gateway-system
+        sectionName: http
+    statusCode: 301

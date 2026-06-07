@@ -1,0 +1,35 @@
+namespace: minecraft
+
+image:
+  repository: itzg/minecraft-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+hostname: ""
+
+env:
+  EULA: "TRUE"
+  TYPE: VANILLA
+  VERSION: LATEST
+  MEMORY: 2G
+  DIFFICULTY: normal
+  MAX_PLAYERS: "20"
+  VIEW_DISTANCE: "10"
+  ONLINE_MODE: "true"
+
+service:
+  type: LoadBalancer
+  port: 25565
+  annotations: {}
+
+storage:
+  size: 10Gi
+  storageClassName: ""
+
+resources:
+  requests:
+    memory: 2Gi
+    cpu: 500m
+  limits:
+    memory: 3Gi
+    cpu: "2"

@@ -30,6 +30,7 @@ external-dns-public:
     - jinjin99.xyz
   sources:
     - gateway-httproute
+    - service
   provider:
     name: aws
   policy: sync

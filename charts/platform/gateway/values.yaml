@@ -1,0 +1,15 @@
+namespace: gateway-system
+gatewayClassName: istio
+
+gateways: []
+# - name: ""           (required)
+#   exposure: ""       (required, label: gateway.deokjong.io/exposure)
+#   annotations: {}
+#   gatewayClassName: ""  (optional, overrides default)
+#   certificateRef:
+#     name: ""         (required)
+#     namespace: ""    (optional, defaults to .Values.namespace)
+#   allowedRoutes:
+#     namespaces:
+#       from: All
+#   extraListeners: [] (raw Gateway API listener objects)

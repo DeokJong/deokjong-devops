@@ -2,17 +2,3 @@ name: wildcard
 clusterIssuerName: cluster-issuer
 dnsNames:
   - sandbox.jinjin99.xyz
-
-gateways:
-  - name: public-gateway
-    enabled: true
-    exposure: public
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: private-gateway
-    enabled: true
-    exposure: private
-    allowedRoutes:
-      namespaces:
-        from: All

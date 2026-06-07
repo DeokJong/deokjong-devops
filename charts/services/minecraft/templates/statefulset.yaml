@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minecraft
+  namespace: {{ include "minecraft.namespace" . }}
+  labels:
+    {{- include "minecraft.labels" . | nindent 4 }}
+spec:
+  serviceName: minecraft
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "minecraft.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "minecraft.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: minecraft
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: minecraft
+              containerPort: 25565
+              protocol: TCP
+          env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        {{- with .Values.storage.storageClassName }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.storage.size }}

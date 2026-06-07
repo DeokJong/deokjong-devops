@@ -1,19 +1,16 @@
 {{- $root := . -}}
-{{- $domains := required "dnsNames is required" .Values.dnsNames }}
 {{- range $gateway := .Values.gateways }}
-{{- if $gateway.enabled }}
-{{- $certificateDomain := first $domains }}
-{{- $secretName := default (include "wildcard-tls.secretName" (dict "root" $root "domain" $certificateDomain)) $gateway.certificateRefName }}
+{{- $from := dig "allowedRoutes" "namespaces" "from" "All" $gateway }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: {{ required "gateway name is required" $gateway.name | quote }}
+  name: {{ required "gateway.name is required" $gateway.name | quote }}
   namespace: {{ $root.Values.namespace | quote }}
   labels:
     app.kubernetes.io/name: {{ $root.Chart.Name | quote }}
     app.kubernetes.io/instance: {{ $root.Release.Name | quote }}
-    gateway.deokjong.io/exposure: {{ required "gateway exposure is required" $gateway.exposure | quote }}
+    gateway.deokjong.io/exposure: {{ required "gateway.exposure is required" $gateway.exposure | quote }}
   {{- with $gateway.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -26,7 +23,7 @@ spec:
       protocol: HTTP
       allowedRoutes:
         namespaces:
-          from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
+          from: {{ $from | quote }}
     - name: "https"
       port: 443
       protocol: HTTPS
@@ -34,10 +31,13 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: {{ $secretName | quote }}
-            group: {{ default "" $gateway.group | quote }}
+            group: ""
+            name: {{ required "gateway.certificateRef.name is required" $gateway.certificateRef.name | quote }}
+            namespace: {{ default $root.Values.namespace $gateway.certificateRef.namespace | quote }}
       allowedRoutes:
         namespaces:
-          from: {{ default "All" $gateway.allowedRoutes.namespaces.from | quote }}
-{{- end }}
+          from: {{ $from | quote }}
+    {{- range $gateway.extraListeners }}
+    - {{ toYaml . | nindent 6 | trim }}
+    {{- end }}
 {{- end }}

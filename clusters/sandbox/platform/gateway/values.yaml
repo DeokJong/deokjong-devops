@@ -1,0 +1,17 @@
+gateways:
+  - name: public-gateway
+    exposure: public
+    certificateRef:
+      name: wildcard-sandbox-jinjin99-xyz-tls
+    allowedRoutes:
+      namespaces:
+        from: All
+    extraListeners: []
+  - name: private-gateway
+    exposure: private
+    certificateRef:
+      name: wildcard-sandbox-jinjin99-xyz-tls
+    allowedRoutes:
+      namespaces:
+        from: All
+    extraListeners: []

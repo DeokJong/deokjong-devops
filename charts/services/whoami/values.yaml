@@ -2,22 +2,7 @@ namespace: whoami
 
 route:
   enabled: false
-  name: whoami
   hostnames: []
-  gatewayType: private
-  backendRefs:
-    - name: whoami
-      port: 80
-  matches:
-    - path:
-        type: PathPrefix
-        value: /whoami
-  filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
-  redirect:
-    enabled: true
-    statusCode: 301
+  parentRefs: []
+  rules: []
+  redirect: {}
