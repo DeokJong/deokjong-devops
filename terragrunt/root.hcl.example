@@ -1,0 +1,26 @@
+remote_state {
+  backend = "s3"
+  config = {
+    bucket       = "BUCKETNAME"
+    region       = "ap-northeast-2"
+    key          = "${path_relative_to_include()}/terraform.tfstate"
+    use_lockfile = true
+  }
+}
+
+generate "backend" {
+  path      = "backend.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<-EOF
+    terraform {
+      backend "s3" {}
+    }
+  EOF
+}
+
+locals {
+  root_path       = "${get_repo_root()}/terragrunt"
+  foundation_path = "${local.root_path}/foundation"
+  platform_path   = "${local.root_path}/platform"
+  service_path    = "${local.root_path}/service"
+}
