@@ -8,12 +8,12 @@ locals {
   }
 
   node_pools = {
-    system = {
+    critical = {
       name      = "critical"
       nodeclass = "default-class"
       taints    = [{ key = "CriticalAddonsOnly", effect = "NoSchedule", value = "" }]
     }
-    general-purpose = {
+    workload = {
       name      = "workload"
       nodeclass = "default-class"
       taints    = []
@@ -24,9 +24,13 @@ locals {
 resource "kubernetes_manifest" "node_classes" {
   for_each = local.node_classes
   manifest = yamldecode(templatefile("${path.module}/manifests/nodeclasses.yaml.tftpl", each.value))
+
+  depends_on = [module.eks]
 }
 
 resource "kubernetes_manifest" "node_pools" {
   for_each = local.node_pools
   manifest = yamldecode(templatefile("${path.module}/manifests/nodepools.yaml.tftpl", each.value))
+
+  depends_on = [module.eks]
 }
