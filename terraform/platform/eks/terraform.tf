@@ -17,11 +17,11 @@ provider "aws" {
 }
 
 provider "kubernetes" {
-  host                   = module.sandbox.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.sandbox.cluster_certificate_authority_data)
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = ephemeral.aws_eks_cluster_auth.sandbox.token
 }
 
 ephemeral "aws_eks_cluster_auth" "sandbox" {
-  name = module.sandbox.cluster_name
+  name = module.eks.cluster_name
 }

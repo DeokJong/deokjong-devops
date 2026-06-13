@@ -2,8 +2,8 @@ locals {
   node_classes = {
     default = {
       name                   = "default-class"
-      node_role_name         = module.sandbox.node_iam_role_name
-      node_security_group_id = module.sandbox.node_security_group_id
+      node_role_name         = module.eks.node_iam_role_name
+      node_security_group_id = module.eks.node_security_group_id
     }
   }
 
