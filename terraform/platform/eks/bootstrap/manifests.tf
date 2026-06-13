@@ -2,8 +2,8 @@ locals {
   node_classes = {
     default = {
       name                   = "default-class"
-      node_role_name         = module.eks.node_iam_role_name
-      node_security_group_id = module.eks.node_security_group_id
+      node_role_name         = var.node_iam_role_name
+      node_security_group_id = var.node_security_group_id
     }
   }
 
@@ -24,13 +24,9 @@ locals {
 resource "kubernetes_manifest" "node_classes" {
   for_each = local.node_classes
   manifest = yamldecode(templatefile("${path.module}/manifests/nodeclasses.yaml.tftpl", each.value))
-
-  depends_on = [module.eks]
 }
 
 resource "kubernetes_manifest" "node_pools" {
   for_each = local.node_pools
   manifest = yamldecode(templatefile("${path.module}/manifests/nodepools.yaml.tftpl", each.value))
-
-  depends_on = [module.eks]
 }
