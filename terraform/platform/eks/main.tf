@@ -21,7 +21,7 @@ module "eks" {
     node_pools = ["system"]
   }
 
-  subnet_ids = local.private_subnet_ids
+  subnet_ids = var.private_subnet_ids
 
   security_group_additional_rules = {
     ingress_fck_gateway_443 = {
@@ -30,7 +30,7 @@ module "eks" {
       from_port                = 443
       to_port                  = 443
       type                     = "ingress"
-      source_security_group_id = local.gateway_sg
+      source_security_group_id = var.subnet_router_sg
     }
   }
 
@@ -48,7 +48,7 @@ module "eks" {
     }
   }
 
-  vpc_id = local.vpc_id
+  vpc_id = var.vpc_id
 
   addons = {
     metrics-server = {
