@@ -1,5 +1,6 @@
 include "root" {
   path = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -7,7 +8,7 @@ terraform {
 }
 
 dependency "vpc" {
-  config_path = "../vpc"
+  config_path = "${include.root.locals.foundation_path}/vpc"
 }
 
 inputs = {
