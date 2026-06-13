@@ -7,19 +7,21 @@ terraform {
   source = "${get_repo_root()}//terraform/${path_relative_to_include()}"
 }
 
-dependency "vpc" {
-  config_path = "${include.root.locals.foundation_path}/vpc"
+dependency "dns" {
+  config_path = "${include.root.locals.foundation_path}/dns"
 }
 
 dependency "fck_gateway" {
   config_path = "${include.root.locals.foundation_path}/fck-gateway"
 }
 
+dependency "vpc" {
+  config_path = "${include.root.locals.foundation_path}/vpc"
+}
+
 inputs = {
   cluster_name = "deokjong-sandbox"
-  route53_arns = [
-    "arn:aws:route53:::hostedzone/Z05211163C63AOHWJ4F1W"
-  ]
+  route53_arns =  values(dependency.dns.outputs.route53_zone_zone_arn)
   subnet_router_sg   = dependency.fck_gateway.outputs.gateway_security_groups_ids[0]
   vpc_id             = dependency.vpc.outputs.vpc_id
   private_subnet_ids = dependency.vpc.outputs.private_subnets
