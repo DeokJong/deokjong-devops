@@ -5,9 +5,23 @@ terraform {
     aws = {
       version = "~> 6.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
   }
 }
 
 provider "aws" {
   region = "ap-northeast-2"
+}
+
+provider "kubernetes" {
+  host                   = module.sandbox.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.sandbox.cluster_certificate_authority_data)
+  token                  = ephemeral.aws_eks_cluster_auth.sandbox.token
+}
+
+ephemeral "aws_eks_cluster_auth" "sandbox" {
+  name = module.sandbox.cluster_name
 }

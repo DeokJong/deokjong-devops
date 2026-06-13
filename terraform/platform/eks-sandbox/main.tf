@@ -1,16 +1,24 @@
 locals {
-  cluster_name = "deokjong-sandbox"
+  critical_affinity = {
+    nodeSelector = {
+      "karpenter.sh/nodepool" = "critical"
+    }
+    tolerations = [
+      { key = "CriticalAddonsOnly", operator = "Exists", effect = "NoSchedule" }
+    ]
+  }
 }
 
 module "sandbox" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  name               = local.cluster_name
-  kubernetes_version = "1.35"
+  name               = var.cluster_name
+  kubernetes_version = "1.36"
 
   compute_config = {
     enabled    = true
+    node_pools = ["system"]
   }
 
   subnet_ids = local.private_subnet_ids
@@ -47,17 +55,38 @@ module "sandbox" {
       preserve                    = false
       resolve_conflicts_on_create = "OVERWRITE"
       resolve_conflicts_on_update = "OVERWRITE"
+      configuration_values = jsonencode({
+        tolerations  = local.critical_affinity.tolerations
+        nodeSelector = local.critical_affinity.nodeSelector
+      })
     }
     cert-manager = {
       preserve                    = false
       resolve_conflicts_on_create = "OVERWRITE"
       resolve_conflicts_on_update = "OVERWRITE"
       configuration_values = jsonencode({
+        tolerations  = local.critical_affinity.tolerations
+        nodeSelector = local.critical_affinity.nodeSelector
         extraArgs = [
           "--dns01-recursive-nameservers-only",
           "--dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53",
         ]
       })
+      service_account_role_arn = module.cert_manager_irsa.arn
+    }
+    external-dns = {
+      preserve                    = false
+      resolve_conflicts_on_create = "OVERWRITE"
+      resolve_conflicts_on_update = "OVERWRITE"
+      configuration_values = jsonencode({
+        tolerations  = local.critical_affinity.tolerations
+        nodeSelector = local.critical_affinity.nodeSelector
+        txtOwnerId   = var.cluster_name
+      })
+      pod_identity_association = [{
+        role_arn        = module.external_dns_pod_identity.iam_role_arn
+        service_account = "external-dns"
+      }]
     }
   }
 }
