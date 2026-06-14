@@ -11,4 +11,4 @@ spec:
     solvers:
       - dns01:
           route53:
-            {}
+            hostedZoneID: Z05211163C63AOHWJ4F1W
