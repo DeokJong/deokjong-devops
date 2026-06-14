@@ -36,3 +36,19 @@ resource "kubernetes_manifest" "root_application" {
     cluster_name = var.cluster_name
   }))
 }
+
+resource "kubernetes_secret_v1" "cluster" {
+  metadata {
+    name      = var.cluster_name
+    namespace = "argpcd"
+    labels = {
+      "argocd.argoproj.io/secret-type" = "cluster"
+    }
+
+    data = {
+      name    = var.cluster_name
+      server  = var.cluster_endpoint
+      project = "default"
+    }
+  }
+}
