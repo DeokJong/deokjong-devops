@@ -5,12 +5,13 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: "in-cluster"
+    name: in-cluster
     namespace: argocd
   project: default
   source:
     repoURL: https://github.com/Deokjong/deokjong-devops.git
     path: clusters/${cluster_name}
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
