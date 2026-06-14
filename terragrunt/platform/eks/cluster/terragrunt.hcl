@@ -16,8 +16,8 @@ dependency "vpc" {
 }
 
 inputs = merge({
+  private_subnet_ids = dependency.vpc.outputs.private_subnets
   subnet_router_sg   = dependency.fck_gateway.outputs.gateway_security_groups_ids[0]
   vpc_id             = dependency.vpc.outputs.vpc_id
-  private_subnet_ids = dependency.vpc.outputs.private_subnets
   }, include.root.locals.platform.eks.cluster
 )
