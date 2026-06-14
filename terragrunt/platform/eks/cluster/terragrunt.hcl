@@ -15,9 +15,9 @@ dependency "vpc" {
   config_path = "${include.root.locals.foundation_path}/vpc"
 }
 
-inputs = {
-  cluster_name       = "deokjong-sandbox"
+inputs = merge({
   subnet_router_sg   = dependency.fck_gateway.outputs.gateway_security_groups_ids[0]
   vpc_id             = dependency.vpc.outputs.vpc_id
   private_subnet_ids = dependency.vpc.outputs.private_subnets
-}
+  }, include.root.locals.platform.eks.cluster
+)
