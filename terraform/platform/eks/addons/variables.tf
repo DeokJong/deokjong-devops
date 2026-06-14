@@ -5,13 +5,6 @@ variable "cluster_name" {
   type        = string
 }
 
-# ── IAM / IRSA ────────────────────────────────────────────────────────────────
-
-variable "oidc_provider_arn" {
-  description = "ARN of the EKS OIDC provider for IRSA (IAM Roles for Service Accounts)"
-  type        = string
-}
-
 # ── DNS ───────────────────────────────────────────────────────────────────────
 
 variable "route53_arns" {

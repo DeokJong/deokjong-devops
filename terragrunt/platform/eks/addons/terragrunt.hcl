@@ -16,7 +16,6 @@ dependency "dns" {
 }
 
 inputs = {
-  cluster_name      = dependency.cluster.outputs.cluster_name
-  oidc_provider_arn = dependency.cluster.outputs.oidc_provider_arn
-  route53_arns      = values(dependency.dns.outputs.route53_zone_zone_arn)
+  cluster_name = dependency.cluster.outputs.cluster_name
+  route53_arns = values(dependency.dns.outputs.route53_zone_zone_arn)
 }

@@ -35,7 +35,6 @@ resource "aws_eks_addon" "cert_manager" {
       "--dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53",
     ]
   })
-  service_account_role_arn = module.cert_manager_irsa.arn
 }
 
 resource "aws_eks_addon" "external_dns" {
