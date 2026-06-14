@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-	name: root
+  name: root
 spec:
-	destination:
-	  name: in-cluster
-	  namespace: argocd
-	project: default
-	source:
-	  repoURL: github.com/Deokjong/deokjong-devops
-	  path: clusters/${cluster_name}
-	syncPolicy:
-	  automated:
-	    prune: true
-	    selfHeal: true
-	  syncOptions:
-	    - CreateNamespace=true
-	    - Delete=confirm
-	    - RespectIgnoreDifferences=true
-	    - ServerSideApply=true
-	    - ServerSideDiff=false
+  destination:
+    name: in-cluster
+    namespace: argocd
+  project: default
+  source:
+    repoURL: https://github.com/Deokjong/deokjong-devops.git
+    path: clusters/${cluster_name}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Delete=confirm
+      - RespectIgnoreDifferences=true
+      - ServerSideApply=true
+      - ServerSideDiff=false
