@@ -30,3 +30,7 @@ resource "kubernetes_manifest" "node_pools" {
   for_each = local.node_pools
   manifest = yamldecode(templatefile("${path.module}/manifests/nodepools.yaml.tftpl", each.value))
 }
+
+resource "kubernetes_manifest" "root_application" {
+  manifest = yamldecode(templatefile("${path.module}/manifests/root-application.yaml.tftpl",var.cluster_name))
+}
