@@ -44,11 +44,10 @@ resource "kubernetes_secret_v1" "cluster" {
     labels = {
       "argocd.argoproj.io/secret-type" = "cluster"
     }
-
-    data = {
-      name    = var.cluster_name
-      server  = var.cluster_endpoint
-      project = "default"
-    }
+  }
+  data = {
+    name    = var.cluster_name
+    server  = var.cluster_endpoint
+    project = "default"
   }
 }
