@@ -13,6 +13,7 @@ override.tf.json
 **/backend.hcl
 **/.terragrunt-cache/**
 **/root.hcl
+terraform/**/terraform.lock.hcl
 
 # Helm
 charts/**/charts/*.tgz
