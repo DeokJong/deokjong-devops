@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istiod
+spec:
+  source:
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: istiod
+    targetRevision: 1.30.0
+    helm:
+      valuesObject:
+        profile: ambient
+        pilot:
+          env:
+            PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
+  destination:
+    namespace: istio-system

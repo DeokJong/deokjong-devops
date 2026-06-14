@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      group: argoproj.io
+      kind: Application
+    patch: |-
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: placeholder
+      spec:
+        destination:
+          name: deokjong-sandbox
+        project: default
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          syncOptions:
+            - CreateNamespace=true
+            - Delete=confirm
+            - RespectIgnoreDifferences=true
+            - ServerSideApply=true
+            - ServerSideDiff=false
