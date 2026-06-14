@@ -7,9 +7,9 @@ terraform {
 }
 
 inputs = {
-  azs             = ["ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"]
-  cidr            = "10.0.0.0/16"
-  enable_ipv6     = true
+  azs         = ["ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"]
+  cidr        = "10.0.0.0/16"
+  enable_ipv6 = true
 
   igw_tags = {
     Name = "deokjong-igw"
@@ -21,9 +21,9 @@ inputs = {
 
   name = "deokjong"
 
-  private_subnet_enable_dns64                                    = false
-  private_subnet_enable_resource_name_dns_aaaa_record_on_launch  = false
-  private_subnet_ipv6_prefixes                                   = ["3", "4", "5"]
+  private_subnet_enable_dns64                                   = false
+  private_subnet_enable_resource_name_dns_aaaa_record_on_launch = false
+  private_subnet_ipv6_prefixes                                  = ["3", "4", "5"]
 
   private_subnet_names = [
     "deokjong-subnet-private1-ap-northeast-2a",
@@ -40,9 +40,9 @@ inputs = {
 
   private_subnets = ["10.0.128.0/20", "10.0.144.0/20", "10.0.160.0/20"]
 
-  public_subnet_enable_dns64                                    = false
-  public_subnet_enable_resource_name_dns_aaaa_record_on_launch  = false
-  public_subnet_ipv6_prefixes                                   = ["0", "1", "2"]
+  public_subnet_enable_dns64                                   = false
+  public_subnet_enable_resource_name_dns_aaaa_record_on_launch = false
+  public_subnet_ipv6_prefixes                                  = ["0", "1", "2"]
 
   public_subnet_names = [
     "deokjong-subnet-public1-ap-northeast-2a",

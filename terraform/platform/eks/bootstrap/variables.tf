@@ -1,4 +1,8 @@
 # ── EKS Cluster ───────────────────────────────────────────────────────────────
+variable "cluster_arn" {
+  description = "arn of the EKS cluster"
+  type        = string
+}
 
 variable "cluster_certificate_authority_data" {
   description = "Base64-encoded certificate authority data for authenticating to the EKS cluster"

@@ -40,14 +40,18 @@ resource "kubernetes_manifest" "root_application" {
 resource "kubernetes_secret_v1" "cluster" {
   metadata {
     name      = var.cluster_name
-    namespace = "argpcd"
+    namespace = "argocd"
     labels = {
       "argocd.argoproj.io/secret-type" = "cluster"
     }
   }
   data = {
     name    = var.cluster_name
-    server  = var.cluster_endpoint
+    server  = var.cluster_arn
     project = "default"
+  }
+
+  lifecycle {
+    ignore_changes = [metadata[0].annotations]
   }
 }

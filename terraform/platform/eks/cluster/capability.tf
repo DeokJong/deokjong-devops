@@ -21,3 +21,19 @@ module "argocd_capability" {
     }
   }
 }
+
+resource "aws_eks_access_entry" "argocd" {
+  cluster_name  = var.cluster_name
+  principal_arn = module.argocd_capability.iam_role_arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "argocd" {
+  cluster_name  = var.cluster_name
+  principal_arn = module.argocd_capability.iam_role_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+}

@@ -1,3 +1,8 @@
+output "cluster_arn" {
+  description = "Name of the EKS cluster"
+  value       = module.eks.cluster_arn
+}
+
 output "cluster_certificate_authority_data" {
   description = "Base64-encoded certificate authority data for authenticating to the EKS cluster"
   value       = module.eks.cluster_certificate_authority_data
