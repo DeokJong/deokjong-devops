@@ -4,9 +4,11 @@ metadata:
   name: cluster-issuer
 spec:
   acme:
-    email: {{ .Values.email }}
+    email: novelss5573@gmail.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-key
     solvers:
-      {{- toYaml .Values.solvers | nindent 6 }}
+      - dns01:
+          route53:
+            {}

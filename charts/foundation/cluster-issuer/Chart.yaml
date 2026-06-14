@@ -1,5 +1,0 @@
-apiVersion: v2
-name: cluster-issuer
-description: cert-manager ACME ClusterIssuer with configurable DNS-01 solvers
-type: application
-version: 0.1.0

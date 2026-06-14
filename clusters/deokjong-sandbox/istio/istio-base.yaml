@@ -9,3 +9,4 @@ spec:
     targetRevision: 1.30.0
   destination:
     namespace: istio-system
+  project: default

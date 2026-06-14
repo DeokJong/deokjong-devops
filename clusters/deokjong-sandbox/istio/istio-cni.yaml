@@ -12,3 +12,4 @@ spec:
         profile: ambient
   destination:
     namespace: istio-system
+  project: default

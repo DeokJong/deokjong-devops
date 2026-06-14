@@ -15,3 +15,4 @@ spec:
             PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
   destination:
     namespace: istio-system
+  project: default

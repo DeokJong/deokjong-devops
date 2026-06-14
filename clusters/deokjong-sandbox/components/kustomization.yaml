@@ -12,7 +12,6 @@ patches:
       spec:
         destination:
           name: deokjong-sandbox
-        project: default
         syncPolicy:
           automated:
             prune: true
