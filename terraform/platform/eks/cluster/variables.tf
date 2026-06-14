@@ -13,3 +13,18 @@ variable "vpc_id" {
 variable "private_subnet_ids" {
   type = list(string)
 }
+
+variable "idc_instance_arn" {
+  type = string
+  sensitive = true
+}
+
+variable "admin_principal_arn" {
+  type = string
+  sensitive = true
+}
+
+variable "admin_sso_group_id" {
+  type = string
+  sensitive = true
+}
