@@ -20,6 +20,10 @@ module "argocd_capability" {
       }]
     }
   }
+
+  depends_on = [
+    module.eks
+  ]
 }
 
 resource "aws_eks_access_entry" "argocd" {
