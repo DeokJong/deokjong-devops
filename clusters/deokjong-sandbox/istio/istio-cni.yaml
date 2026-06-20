@@ -11,5 +11,16 @@ spec:
       valuesObject:
         profile: ambient
   destination:
+    name: in-cluster
     namespace: istio-system
   project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Delete=confirm
+      - RespectIgnoreDifferences=true
+      - ServerSideApply=true
+      - ServerSideDiff=false

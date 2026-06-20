@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: root
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/Deokjong/deokjong-devops.git
+        revision: main
+        directories:
+          - path: clusters/${cluster_name}/*
+  template:
+    metadata:
+      name: '{{ .path.basename }}'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Deokjong/deokjong-devops.git
+        targetRevision: main
+        path: '{{ .path.path }}'
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Delete=confirm
+          - RespectIgnoreDifferences=true
+          - ServerSideApply=true
+          - ServerSideDiff=false
