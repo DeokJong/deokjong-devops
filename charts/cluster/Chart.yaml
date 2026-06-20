@@ -1,5 +1,0 @@
-apiVersion: v2
-name: cluster
-description: Reusable cluster chart — renders ApplicationSet for dynamic app discovery
-type: application
-version: 0.1.0

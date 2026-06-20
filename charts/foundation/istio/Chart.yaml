@@ -1,5 +1,0 @@
-apiVersion: v2
-name: istio
-description: Istio service mesh control plane with CNI and ambient ztunnel components
-type: application
-version: 0.1.0

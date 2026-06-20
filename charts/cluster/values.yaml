@@ -1,8 +1,0 @@
-global:
-  basePath: ""
-  clusterName: ""
-  repoURL: ""
-  targetRevision: HEAD
-  destination:
-    server: https://kubernetes.default.svc
-  project: default

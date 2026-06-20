@@ -1,5 +1,0 @@
-name: wildcard
-namespace: gateway-system
-clusterIssuerName: ""
-
-dnsNames: []

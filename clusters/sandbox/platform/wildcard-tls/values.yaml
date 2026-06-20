@@ -1,4 +1,0 @@
-name: wildcard
-clusterIssuerName: cluster-issuer
-dnsNames:
-  - sandbox.jinjin99.xyz

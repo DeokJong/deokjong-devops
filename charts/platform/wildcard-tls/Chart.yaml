@@ -1,5 +1,0 @@
-apiVersion: v2
-name: wildcard-tls
-description: Wildcard TLS certificates managed by cert-manager
-type: application
-version: 0.1.0
