@@ -9,10 +9,17 @@ spec:
     - name: http
       port: 80
       protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: https
       port: 443
-      protocol: HTTP
+      protocol: HTTPS
       tls:
         mode: Terminate
         certificateRefs:
           - name: wildcard-jinjin99-xyz-tls
+            namespace: istio-system
+      allowedRoutes:
+        namespaces:
+          from: All
