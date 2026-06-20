@@ -31,8 +31,3 @@ variable "node_iam_role_name" {
   description = "Name of the IAM role attached to EKS worker nodes"
   type        = string
 }
-
-variable "node_security_group_id" {
-  description = "Security group ID attached to the EKS worker nodes"
-  type        = string
-}

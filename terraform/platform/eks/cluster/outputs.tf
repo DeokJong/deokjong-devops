@@ -29,11 +29,6 @@ output "node_iam_role_name" {
   value       = module.eks.node_iam_role_name
 }
 
-output "node_security_group_id" {
-  description = "Security group ID attached to the EKS worker nodes"
-  value       = module.eks.node_security_group_id
-}
-
 output "oidc_provider_arn" {
   description = "ARN of the EKS OIDC provider for IRSA (IAM Roles for Service Accounts)"
   value       = module.eks.oidc_provider_arn

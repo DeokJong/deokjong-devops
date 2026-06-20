@@ -1,22 +1,16 @@
 locals {
   node_classes = {
-    default = {
-      name                              = "default-class"
+    workload = {
+      name                              = "workload"
       node_role_name                    = var.node_iam_role_name
-      node_security_group_id            = var.node_security_group_id
       cluster_primary_security_group_id = var.cluster_primary_security_group_id
     }
   }
 
   node_pools = {
-    critical = {
-      name      = "critical"
-      nodeclass = "default-class"
-      taints    = [{ key = "CriticalAddonsOnly", effect = "NoSchedule", value = "" }]
-    }
-    workload = {
-      name      = "workload"
-      nodeclass = "default-class"
+    default = {
+      name      = "default"
+      nodeclass = "workload"
       taints    = []
     }
   }
