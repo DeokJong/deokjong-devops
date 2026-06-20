@@ -19,6 +19,11 @@ output "cluster_name" {
   value       = module.eks.cluster_name
 }
 
+output "cluster_primary_security_group_id" {
+  description = "EKS-managed primary security group ID, auto-attached to EKS Auto Mode built-in node pools with a self-referencing all-traffic rule"
+  value       = module.eks.cluster_primary_security_group_id
+}
+
 output "node_iam_role_name" {
   description = "Name of the IAM role attached to EKS worker nodes"
   value       = module.eks.node_iam_role_name

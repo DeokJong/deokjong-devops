@@ -1,9 +1,10 @@
 locals {
   node_classes = {
     default = {
-      name                   = "default-class"
-      node_role_name         = var.node_iam_role_name
-      node_security_group_id = var.node_security_group_id
+      name                              = "default-class"
+      node_role_name                    = var.node_iam_role_name
+      node_security_group_id            = var.node_security_group_id
+      cluster_primary_security_group_id = var.cluster_primary_security_group_id
     }
   }
 

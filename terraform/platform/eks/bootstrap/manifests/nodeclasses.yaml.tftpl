@@ -16,3 +16,4 @@ spec:
         karpenter.sh/discovery/private: "*"
   securityGroupSelectorTerms:
     - id: ${node_security_group_id}
+    - id: ${cluster_primary_security_group_id}
