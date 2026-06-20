@@ -18,7 +18,9 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: wildcard-jinjin99-xyz-tls
+          - group: ''
+            kind: Secret
+            name: wildcard-jinjin99-xyz-tls
             namespace: istio-system
       allowedRoutes:
         namespaces:
