@@ -4,7 +4,7 @@ include "root" {
 }
 
 terraform {
-  source = "${get_repo_root()}//terraform/${path_relative_to_include()}"
+  source = "${get_repo_root()}//modules/${path_relative_to_include()}"
 }
 
 dependency "cluster" {
