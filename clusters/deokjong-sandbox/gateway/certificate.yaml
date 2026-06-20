@@ -11,3 +11,17 @@ spec:
   dnsNames:
     - jinjin99.xyz
     - "*.jinjin99.xyz"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-jinops-cloud
+  namespace: istio-system
+spec:
+  secretName: wildcard-jinops-cloud-tls
+  issuerRef:
+    name: cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - jinops.cloud
+    - "*.jinops.cloud"

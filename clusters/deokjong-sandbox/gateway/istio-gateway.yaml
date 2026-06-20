@@ -12,16 +12,55 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
+    - name: https-jinjin99-root
+      hostname: jinjin99.xyz
       port: 443
       protocol: HTTPS
       tls:
         mode: Terminate
         certificateRefs:
-          - group: ''
+          - group: ""
             kind: Secret
             name: wildcard-jinjin99-xyz-tls
-            namespace: istio-system
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-jinjin99-wildcard
+      hostname: "*.jinjin99.xyz"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: wildcard-jinjin99-xyz-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-jinops-root
+      hostname: jinops.cloud
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: wildcard-jinops-cloud-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-jinops-wildcard
+      hostname: "*.jinops.cloud"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: wildcard-jinops-cloud-tls
       allowedRoutes:
         namespaces:
           from: All
