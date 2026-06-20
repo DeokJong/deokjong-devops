@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/actions/actions-runner-controller
     targetRevision: gha-runner-scale-set-0.14.2
-    chart: charts/gha-runner-scale-set-controller
+    path: charts/gha-runner-scale-set-controller
   syncPolicy:
     automated:
       prune: true
