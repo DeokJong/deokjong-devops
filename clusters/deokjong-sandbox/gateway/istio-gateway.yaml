@@ -20,7 +20,6 @@ spec:
         certificateRefs:
           - name: wildcard-jinjin99-xyz-tls
             namespace: istio-system
-            kind: secret
       allowedRoutes:
         namespaces:
           from: All
