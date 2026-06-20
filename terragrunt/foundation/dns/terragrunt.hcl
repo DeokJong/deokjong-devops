@@ -14,5 +14,11 @@ inputs = {
         Name = "jinjin99.xyz"
       }
     }
+    "jinops.cloud" = {
+      comment = ""
+      tags = {
+        Name = "jinops.cloud"
+      }
+    }
   }
 }
