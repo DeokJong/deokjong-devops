@@ -9,9 +9,9 @@ spec:
     namespace: argocd
   project: default
   source:
-    repoURL: https://github.com/actions/actions-runner-controller/charts
+    repoURL: https://github.com/actions/actions-runner-controller
     targetRevision: v0.14.2
-    chart: gha-runner-scale-set-controller
+    chart: charts/gha-runner-scale-set-controller
   syncPolicy:
     automated:
       prune: true
