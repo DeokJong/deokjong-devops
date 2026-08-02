@@ -1,20 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: wildcard-jinjin99-xyz
-  namespace: istio-system
-spec:
-  secretName: wildcard-jinjin99-xyz-tls
-  issuerRef:
-    name: cluster-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - jinjin99.xyz
-    - "*.jinjin99.xyz"
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
   name: wildcard-jinops-cloud
   namespace: istio-system
 spec:
