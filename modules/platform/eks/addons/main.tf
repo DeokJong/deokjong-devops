@@ -28,6 +28,7 @@ resource "aws_eks_addon" "external_dns" {
   resolve_conflicts_on_update = "OVERWRITE"
   configuration_values = jsonencode({
     txtOwnerId   = var.cluster_name
+    sources    = ["service", "ingress", "gateway-httproute"]
   })
 
   pod_identity_association {

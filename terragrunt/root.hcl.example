@@ -22,5 +22,5 @@ locals {
   root_path       = "${get_repo_root()}/terragrunt"
   foundation_path = "${local.root_path}/foundation"
   platform_path   = "${local.root_path}/platform"
-  service_path    = "${local.root_path}/service"
+  services_path    = "${local.root_path}/services"
 }
