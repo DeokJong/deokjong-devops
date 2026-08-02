@@ -77,6 +77,9 @@ api:
       memory: 2Gi
   properties:
     redisPort: "6379"
+  env:
+    - name: AwsEnableRoleAuth
+      value: "true"
 
 executor:
   enabled: true
@@ -89,6 +92,9 @@ executor:
       memory: 1Gi
     limits:
       memory: 2Gi
+  env:
+    - name: AwsEnableRoleAuth
+      value: "true"
 
 registry:
   enabled: true
@@ -101,6 +107,9 @@ registry:
       memory: 512Mi
     limits:
       memory: 1Gi
+  env:
+    - name: AwsEnableRoleAuth
+      value: "true"
 
 ui:
   enabled: true
