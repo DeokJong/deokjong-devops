@@ -6,7 +6,7 @@ enableIPv6: false
 
 security:
   useOpenLDAP: false
-  adminGroup: "jinops-cloud"
+  adminGroup: "jinops-cloud:admins"
   dexClientId: "terrakube-ui"
   dexClientScope: "email openid profile offline_access groups"
   existingSecret: false
@@ -36,6 +36,7 @@ dex:
           clientID: $GITHUB_CLIENT_ID
           clientSecret: $GITHUB_CLIENT_SECRET
           redirectURI: https://terrakube-api.jinops.cloud/dex/callback
+          teamNameField: slug
           orgs:
             - name: jinops-cloud
     staticClients:
