@@ -66,6 +66,10 @@ api:
     create: true
     roleName: "terrakube-api-role"
     roleBindingName: "terrakube-api-role-binding"
+  ephemeralExecution:
+    enabled: true
+    secretName:
+      - terrakube-executor-secrets
   defaultDatabase: true
   defaultRedis: true
   loadSampleData: false
@@ -84,7 +88,7 @@ api:
 executor:
   enabled: true
   existingSecret: true
-  replicaCount: "1"
+  replicaCount: "0"
   serviceAccountName: "terrakube"
   resources:
     requests:
