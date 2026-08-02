@@ -8,12 +8,6 @@ terraform {
 
 inputs = {
   zones = {
-    "jinjin99.xyz" = {
-      comment = ""
-      tags = {
-        Name = "jinjin99.xyz"
-      }
-    }
     "jinops.cloud" = {
       comment = ""
       tags = {
