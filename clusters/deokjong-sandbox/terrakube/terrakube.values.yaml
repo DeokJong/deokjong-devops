@@ -95,6 +95,8 @@ executor:
   env:
     - name: AwsEnableRoleAuth
       value: "true"
+    - name: AwsIncludeBackendKeys
+      value: "false"
 
 registry:
   enabled: true
