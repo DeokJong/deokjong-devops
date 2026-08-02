@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: terrakube-stack
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    name: in-cluster
+    namespace: terrakube
+  sources:
+    - repoURL: https://terrakube-io.github.io/terrakube-helm-chart
+      chart: terrakube
+      targetRevision: 4.7.6
+      helm:
+        releaseName: terrakube
+        valueFiles:
+          - $values/clusters/deokjong-sandbox/terrakube/terrakube.values.yaml
+    - repoURL: https://github.com/Deokjong/deokjong-devops.git
+      targetRevision: main
+      ref: values
+  ignoreDifferences:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      jqPathExpressions:
+        - '.spec.rules[].backendRefs[].group'
+        - '.spec.rules[].backendRefs[].kind'
+        - '.spec.rules[].backendRefs[].weight'
+    - group: apps
+      kind: StatefulSet
+      name: terrakube-postgresql
+      jqPathExpressions:
+        - '.spec.volumeClaimTemplates[].apiVersion'
+        - '.spec.volumeClaimTemplates[].kind'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Delete=confirm
+      - RespectIgnoreDifferences=true
+      - ServerSideApply=true
+      - ServerSideDiff=false
